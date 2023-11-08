@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "RealPunkLogo.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
