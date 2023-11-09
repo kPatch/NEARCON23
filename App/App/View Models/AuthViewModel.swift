@@ -26,8 +26,8 @@ class AuthViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     private init() {
-//        userSession = Auth.auth().currentUser
-//        self.fetchUser()
+        userSession = Auth.auth().currentUser
+        self.fetchUser()
     }
 
     public func connectWallet() async throws {
