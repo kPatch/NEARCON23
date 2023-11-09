@@ -22,11 +22,20 @@ struct EventsView: View {
 }
 
 struct EventsScrollView: View {
+    @State private var isShowingEventDetails: Bool = false
+    
     var body: some View {
         ScrollView(showsIndicators: false) {
             ForEach(0..<10, id:\.self) { _ in
-                EventItemView()
+                Button {
+                    isShowingEventDetails.toggle()
+                } label: {
+                    EventItemView()
+                }
             }
+        }
+        .sheet(isPresented: $isShowingEventDetails) {
+            EventDetailView()
         }
     }
 }

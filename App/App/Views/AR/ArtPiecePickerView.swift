@@ -7,6 +7,13 @@ struct ArtPiecePickerView: View {
     var body: some View {
         ZStack {
             VStack {
+                Button("Collab Mode") {
+                    self.arViewModel.isCollaborationEnabled.toggle()
+                }
+                .padding()
+                .background(self.arViewModel.isCollaborationEnabled ? .red : .green)
+                .clipShape(Capsule())
+                
                 Spacer()
 
                 Capsule()

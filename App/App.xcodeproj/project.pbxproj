@@ -30,7 +30,6 @@
 		7D5FC8DD2AC0807D00BB2F2D /* SVGWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5FC8DC2AC0807D00BB2F2D /* SVGWebView.swift */; };
 		7D64AA3A2ABE7D1000EBE52E /* AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D64AA392ABE7D1000EBE52E /* AppApp.swift */; };
 		7D64AA3E2ABE7D1200EBE52E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D64AA3D2ABE7D1200EBE52E /* Assets.xcassets */; };
-		7D64AA412ABE7D1200EBE52E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D64AA402ABE7D1200EBE52E /* Preview Assets.xcassets */; };
 		7D64AA4C2ABE903300EBE52E /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D64AA4B2ABE903300EBE52E /* SplashScreenView.swift */; };
 		7D64AA4F2ABE924700EBE52E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D64AA4E2ABE924700EBE52E /* Constants.swift */; };
 		7D64AA512ABE974E00EBE52E /* PreviewFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D64AA502ABE974E00EBE52E /* PreviewFeaturesView.swift */; };
@@ -77,6 +76,11 @@
 		7D8DED6E2ABF82F60094A71E /* ModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8DED6C2ABF82F60094A71E /* ModelHelper.swift */; };
 		7D8DED712ABF86650094A71E /* AppTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8DED702ABF86650094A71E /* AppTabView.swift */; };
 		7D8DED732ABF8CDB0094A71E /* AppearenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8DED722ABF8CDB0094A71E /* AppearenceViewModel.swift */; };
+		7DB46A5D2AFC70EB00822217 /* Camera-SwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7DB46A5C2AFC70EB00822217 /* Camera-SwiftUI */; };
+		7DB46A5F2AFC711D00822217 /* MultipeerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB46A5E2AFC711D00822217 /* MultipeerSession.swift */; };
+		7DB46A612AFC715F00822217 /* SIMD_float4x4Wrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB46A602AFC715F00822217 /* SIMD_float4x4Wrapper.swift */; };
+		7DB46A642AFC719200822217 /* NEARCONLogo.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 7DB46A632AFC719200822217 /* NEARCONLogo.usdz */; };
+		7DB46A662AFC71DC00822217 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB46A652AFC71DC00822217 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,7 +92,6 @@
 		7D64AA362ABE7D1000EBE52E /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D64AA392ABE7D1000EBE52E /* AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppApp.swift; sourceTree = "<group>"; };
 		7D64AA3D2ABE7D1200EBE52E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7D64AA402ABE7D1200EBE52E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7D64AA4B2ABE903300EBE52E /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		7D64AA4E2ABE924700EBE52E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7D64AA502ABE974E00EBE52E /* PreviewFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewFeaturesView.swift; sourceTree = "<group>"; };
@@ -134,6 +137,10 @@
 		7D8DED6C2ABF82F60094A71E /* ModelHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelHelper.swift; sourceTree = "<group>"; };
 		7D8DED702ABF86650094A71E /* AppTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabView.swift; sourceTree = "<group>"; };
 		7D8DED722ABF8CDB0094A71E /* AppearenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearenceViewModel.swift; sourceTree = "<group>"; };
+		7DB46A5E2AFC711D00822217 /* MultipeerSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerSession.swift; sourceTree = "<group>"; };
+		7DB46A602AFC715F00822217 /* SIMD_float4x4Wrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIMD_float4x4Wrapper.swift; sourceTree = "<group>"; };
+		7DB46A632AFC719200822217 /* NEARCONLogo.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = NEARCONLogo.usdz; sourceTree = "<group>"; };
+		7DB46A652AFC71DC00822217 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +155,7 @@
 				7D5FC8CE2AC02E7E00BB2F2D /* WalletConnectNotify in Frameworks */,
 				7D5FC8BA2AC026C500BB2F2D /* WalletConnectPairing in Frameworks */,
 				7D8DED132ABF1D960094A71E /* SwiftUIMasonry in Frameworks */,
+				7DB46A5D2AFC70EB00822217 /* Camera-SwiftUI in Frameworks */,
 				7D5FC8B82AC026C500BB2F2D /* WalletConnectNetworking in Frameworks */,
 				7D5FC8C92AC02DCE00BB2F2D /* Starscream in Frameworks */,
 				7D5FC8D12AC02EA800BB2F2D /* web3swift in Frameworks */,
@@ -197,17 +205,9 @@
 				7D64AA472ABE900F00EBE52E /* Views */,
 				7D64AA392ABE7D1000EBE52E /* AppApp.swift */,
 				7D64AA3D2ABE7D1200EBE52E /* Assets.xcassets */,
-				7D64AA3F2ABE7D1200EBE52E /* Preview Content */,
+				7DB46A6A2AFC725C00822217 /* Preview Content */,
 			);
 			path = App;
-			sourceTree = "<group>";
-		};
-		7D64AA3F2ABE7D1200EBE52E /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				7D64AA402ABE7D1200EBE52E /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		7D64AA472ABE900F00EBE52E /* Views */ = {
@@ -237,6 +237,7 @@
 			children = (
 				7D8DED6C2ABF82F60094A71E /* ModelHelper.swift */,
 				7D5FC8D22AC0373B00BB2F2D /* NonFungibleTokens.swift */,
+				7DB46A602AFC715F00822217 /* SIMD_float4x4Wrapper.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -253,11 +254,14 @@
 		7D64AA4D2ABE923A00EBE52E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				7DB46A652AFC71DC00822217 /* ImagePicker.swift */,
+				7DB46A622AFC718400822217 /* Temporary */,
 				7D8DED422ABF46270094A71E /* Extensions */,
 				7D64AA4E2ABE924700EBE52E /* Constants.swift */,
 				7D8DED142ABF37C30094A71E /* HomeGridViewMode.swift */,
 				7D5FC8D42AC03FA800BB2F2D /* RestHandler.swift */,
 				7D5FC8DC2AC0807D00BB2F2D /* SVGWebView.swift */,
+				7DB46A5E2AFC711D00822217 /* MultipeerSession.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -440,6 +444,22 @@
 			path = "AR Features";
 			sourceTree = "<group>";
 		};
+		7DB46A622AFC718400822217 /* Temporary */ = {
+			isa = PBXGroup;
+			children = (
+				7DB46A632AFC719200822217 /* NEARCONLogo.usdz */,
+			);
+			path = Temporary;
+			sourceTree = "<group>";
+		};
+		7DB46A6A2AFC725C00822217 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Preview Content";
+			path = "App/Preview Content";
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -474,6 +494,7 @@
 				7D5FC8D02AC02EA800BB2F2D /* web3swift */,
 				7D5FC8D72AC0474200BB2F2D /* SwiftyJSON */,
 				7D5FC8DA2AC0670B00BB2F2D /* Kingfisher */,
+				7DB46A5C2AFC70EB00822217 /* Camera-SwiftUI */,
 			);
 			productName = RizzApp;
 			productReference = 7D64AA362ABE7D1000EBE52E /* App.app */;
@@ -511,6 +532,7 @@
 				7D5FC8CF2AC02EA800BB2F2D /* XCRemoteSwiftPackageReference "web3swift" */,
 				7D5FC8D62AC0474100BB2F2D /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				7D5FC8D92AC0670B00BB2F2D /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				7DB46A5B2AFC70EB00822217 /* XCRemoteSwiftPackageReference "Camera-SwiftUI" */,
 			);
 			productRefGroup = 7D64AA372ABE7D1000EBE52E /* Products */;
 			projectDirPath = "";
@@ -526,7 +548,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D64AA412ABE7D1200EBE52E /* Preview Assets.xcassets in Resources */,
+				7DB46A642AFC719200822217 /* NEARCONLogo.usdz in Resources */,
 				7D64AA3E2ABE7D1200EBE52E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -541,6 +563,7 @@
 				7D8DED102ABEE0370094A71E /* HomeView.swift in Sources */,
 				7D8DED292ABF38B90094A71E /* BigCardGridView.swift in Sources */,
 				7D8DED1F2ABF38400094A71E /* PlaylistCategoryView.swift in Sources */,
+				7DB46A662AFC71DC00822217 /* ImagePicker.swift in Sources */,
 				7D64AA542ABE98DD00EBE52E /* FeatureItemCarouselView.swift in Sources */,
 				7D5FC8D52AC03FA800BB2F2D /* RestHandler.swift in Sources */,
 				7D8DED6E2ABF82F60094A71E /* ModelHelper.swift in Sources */,
@@ -562,6 +585,7 @@
 				7D8DED0D2ABED0520094A71E /* ConnectWalletFeatureView.swift in Sources */,
 				7D8DED642ABF82B50094A71E /* MainARView.swift in Sources */,
 				7D5FC8AD2AC0034500BB2F2D /* GridModeOptionsView.swift in Sources */,
+				7DB46A5F2AFC711D00822217 /* MultipeerSession.swift in Sources */,
 				7D8DED252ABF38870094A71E /* MasonryGridView.swift in Sources */,
 				7D8DED0B2ABECC340094A71E /* AuthViewModel.swift in Sources */,
 				7D8DED2F2ABF39090094A71E /* MenuDockView.swift in Sources */,
@@ -585,6 +609,7 @@
 				7D8DED332ABF393D0094A71E /* NFTCategoryView.swift in Sources */,
 				7D8DED172ABF37DE0094A71E /* MyNFTsView.swift in Sources */,
 				7D8DED312ABF39280094A71E /* HomeNavBarView.swift in Sources */,
+				7DB46A612AFC715F00822217 /* SIMD_float4x4Wrapper.swift in Sources */,
 				7D8DED212ABF38540094A71E /* PlaylistScrollView.swift in Sources */,
 				7D8DED2B2ABF38C90094A71E /* BigCardView.swift in Sources */,
 				7D8DED692ABF82B50094A71E /* CustomDirectionLight.swift in Sources */,
@@ -721,7 +746,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"RizzApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 8GNE6ML5WX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -752,7 +777,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"RizzApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 8GNE6ML5WX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -856,6 +881,14 @@
 				kind = branch;
 			};
 		};
+		7DB46A5B2AFC70EB00822217 /* XCRemoteSwiftPackageReference "Camera-SwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rorodriguez116/Camera-SwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -943,6 +976,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7D8DED112ABF1D960094A71E /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */;
 			productName = SwiftUIMasonry;
+		};
+		7DB46A5C2AFC70EB00822217 /* Camera-SwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7DB46A5B2AFC70EB00822217 /* XCRemoteSwiftPackageReference "Camera-SwiftUI" */;
+			productName = "Camera-SwiftUI";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
