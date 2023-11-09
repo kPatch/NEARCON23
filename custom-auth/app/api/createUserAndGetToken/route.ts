@@ -48,7 +48,7 @@ function getApp() {
 // };
 
 export async function POST(req: Request) {
-  
+
   const auth = getApp().auth();
   // type SignUpData = {
   //   email: string;
@@ -56,18 +56,18 @@ export async function POST(req: Request) {
   // };
 
   const body = await req.json();
-  const {  email, password } = body;
+  const { email, password } = body;
 
   try {
     const user = await auth.createUser(body);
     const token = await auth.createCustomToken(user.uid, {
       isAdmin: true,
-     //... add other custom claims as need be
+      //... add other custom claims as need be
     });
     console.log("TOKEN RESPONSE: " + token);
 
     return NextResponse.json(
-      { token},
+      { token },
       {
         status: 200,
         headers: {
