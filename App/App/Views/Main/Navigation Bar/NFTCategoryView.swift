@@ -8,29 +8,28 @@
 import SwiftUI
 
 struct NFTCategoryView: View {
+    let names: [String] = ["Regular NFTs", "Music NFTs", "Movie NFTs", "AR NFTs"]
+    let icons: [String] = ["square.grid.2x2.fill", "music.mic", "popcorn.fill", "arkit"]
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(0..<3, id:\.self) { _ in
+                ForEach(0..<4, id:\.self) { idx in
                     ZStack {
                         Capsule()
-                            .foregroundStyle(RizzColors.rizzBlack)
+                            .foregroundStyle(RizzColors.rizzGreen)
                             .frame(height: 50)
                         
                         HStack {
-                            Image(systemName: "square.grid.2x2.fill")
-                                .foregroundStyle(RizzColors.rizzWhite)
+                            Image(systemName: icons[idx])
+                                .foregroundStyle(RizzColors.rizzMatteBlack)
                             
-                            Text("Collections")
-                                .foregroundStyle(RizzColors.rizzWhite)
+                            Text(names[idx])
+                                .foregroundStyle(RizzColors.rizzMatteBlack)
+                                .bold()
                         }
                         .padding(.horizontal)
                     }
-                        .overlay {
-                            Capsule()
-                                .stroke(RizzColors.rizzBlue, lineWidth: 5)
-                        }
-                        .padding(.horizontal, 2)
                 }
             }
             .padding(.horizontal, 14)

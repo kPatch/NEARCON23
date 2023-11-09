@@ -47,9 +47,9 @@ struct PlaylistScrollView: View {
             }
             .padding(.bottom)
             .padding(.horizontal, 22)
-        }
-        .sheet(item: $currentNFT) { nftDetail in
-            NFTDetailView(nft: nftDetail)
+            .sheet(item: $currentNFT) { nftDetail in
+                NFTDetailView(nft: nftDetail)
+            }
         }
         .mask {
             RoundedRectangle(cornerRadius: 12.0)

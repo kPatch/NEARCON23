@@ -10,10 +10,6 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     
-    init() {
-        self.viewModel.fetchNFTs()
-    }
-    
     var body: some View {
         ScrollView {
             ZStack {
@@ -27,6 +23,9 @@ struct HomeView: View {
             }
         }
         .refreshable {
+            self.viewModel.fetchNFTs()
+        }
+        .onAppear {
             self.viewModel.fetchNFTs()
         }
     }

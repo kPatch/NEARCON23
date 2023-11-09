@@ -25,9 +25,9 @@ struct MasonryGridView: View {
                 }
             }
             .padding(.bottom, 140)
-        }
-        .sheet(item: $currentNFT) { nftDetail in
-            NFTDetailView(nft: nftDetail)
+            .sheet(item: $currentNFT) { nftDetail in
+                NFTDetailView(nft: nftDetail)
+            }
         }
         .refreshable {
             self.authViewModel.fetchNFTs()
