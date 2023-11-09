@@ -1,0 +1,5 @@
+
+curl --location --request POST  'https://graph.mintbase.xyz/testnet' \
+--header 'mb-api-key: anon' \
+--header 'Content-Type: application/json' \
+--data-raw '{"query":"query MyQuery {\n  mb_views_nft_tokens(\n where: {owner: {_eq: \"irvin123.testnet\"}}\n limit: 30\n order_by: {last_transfer_timestamp: desc}\n  ) {\n nft_contract_id\n title\n description\n media\n last_transfer_receipt_id\n }\n}\n", "variables":null, "operationName":"MyQuery"}'
