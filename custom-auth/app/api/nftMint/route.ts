@@ -31,6 +31,12 @@ export async function POST(req: Request) {
 
     const keypair = KeyPair.fromString(privateKey)
 
+    var pubKey = keypair.getPublicKey();
+    var kpStr = keypair.toString();
+
+    console.log("PUB KEY: " + pubKey);
+    console.log("KPStr: " + kpStr);
+    
     await keyStore.setKey(
         process.env.NEXT_PUBLIC_NETWORK_ID as string,
         accountId,
@@ -99,49 +105,49 @@ export async function POST(req: Request) {
         new BN(deposit)
     );
 
-    // console.log("SIGNING DELEGATE ...");
+    console.log("SIGNING DELEGATE ...");
     const delegate = await signerAccount.signedDelegate({
         actions: [action],
         blockHeightTtl: 600,
         // receiverId: process.env.NEXT_PUBLIC_NETWORK_ID as string == "mainnet" ? process.env.GENADROP_MAINNET as string : process.env.GENADROP_TESTNET as string,
-        receiverId:  process.env.MINT_ADDRESS as string
+        receiverId:  process.env.MINT_ADDRESS as string // contract address
     });
 
-    return NextResponse.json(
-        "TEST",
-        {
-            status: 200,
-            headers: {
-                'content-type': 'text/plain',
-            },
-        },
-    );
+    // return NextResponse.json(
+    //     "TEST",
+    //     {
+    //         status: 200,
+    //         headers: {
+    //             'content-type': 'text/plain',
+    //         },
+    //     },
+    // );
 
-    // console.log("SUBMITTING Transactions ...");
-    // try {
-    //     const result = await submitTransaction({
-    //         delegate: delegate,
-    //         network: process.env.NEXT_PUBLIC_NETWORK_ID as string,
-    //     });
-    //     return NextResponse.json(
-    //         { result },
-    //         {
-    //             status: 200,
-    //             headers: {
-    //                 'content-type': 'text/plain',
-    //             },
-    //         },
-    //     );
-    // } catch (error) {
-    //     console.log("ERROR SUBMITTING Transactions ... " + error);
-    //     return NextResponse.json(
-    //         { error },
-    //         {
-    //             status: 400,
-    //             headers: {
-    //                 'content-type': 'text/plain',
-    //             },
-    //         },
-    //     );
-    // }
+    console.log("SUBMITTING Transactions ...");
+    try {
+        const result = await submitTransaction({
+            delegate: delegate,
+            network: process.env.NEXT_PUBLIC_NETWORK_ID as string,
+        });
+        return NextResponse.json(
+            { result },
+            {
+                status: 200,
+                headers: {
+                    'content-type': 'text/plain',
+                },
+            },
+        );
+    } catch (error) {
+        console.log("ERROR SUBMITTING Transactions ... " + error);
+        return NextResponse.json(
+            { error },
+            {
+                status: 400,
+                headers: {
+                    'content-type': 'text/plain',
+                },
+            },
+        );
+    }
 }
