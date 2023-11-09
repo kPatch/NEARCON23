@@ -35,6 +35,7 @@ struct NFTTopDetailView: View {
                             .frame(width: 16, height: 16)
                             .padding(.top, 30)
                             .padding(.leading, 30)
+                            .clipShape(Circle())
                     }
 
                     VStack(alignment: .leading) {

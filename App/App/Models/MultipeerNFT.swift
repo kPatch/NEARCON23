@@ -7,9 +7,15 @@
 
 import Foundation
 
-class MultipeerNFT: NSSecureCoding {
+@objc(MultipeerNFT)
+class MultipeerNFT: NSObject, NSSecureCoding {
     let transform: SIMD_float4x4_Wrapper
     let model: Data
+
+    init(transform: SIMD_float4x4_Wrapper, model: Data) {
+        self.transform = transform
+        self.model = model
+    }
 
     static var supportsSecureCoding: Bool {
         return true
@@ -22,8 +28,8 @@ class MultipeerNFT: NSSecureCoding {
 
     required init?(coder: NSCoder) {
         if
-            let transform: SIMD_float4x4_Wrapper = coder.decodeObject(forKey: "transform") as? SIMD_float4x4_Wrapper,
-            let model: Data = coder.decodeObject(forKey: "model") as? Data
+            let transform: SIMD_float4x4_Wrapper = coder.decodeObject(of: SIMD_float4x4_Wrapper.self, forKey: "transform"),
+            let model: Data = coder.decodeObject(of: NSData.self, forKey: "model") as? Data
         {
             self.transform = transform
             self.model = model
