@@ -49,11 +49,17 @@ export async function GET() {
     // const keyPair = new KeyPairEd25519(bs58_string);
     // const keyPair = new KeyPairEd25519(arr);
 
-    const publicKey = key.publicKey;
-    const privateKey = key.privateKey
+    const publicKey = new Uint8Array(key.publicKey);
+    const secretKey = new Uint8Array(key.secretKey)
 
     console.log("PUBLIC KEY: " + publicKey);
-    console.log("PRIVATE KEY: " + publicKey);
+    console.log("PRIVATE KEY: " + secretKey);
+
+    var pubKeyStr = "ED25519:" + bs58.encode(publicKey);
+    var privKeyStr = "ED25519:" + bs58.encode(secretKey);
+
+    console.log("PUB: " + pubKeyStr);
+    console.log("PRIV:" + privKeyStr);
 
     const data = await Response.json(bs58_string);
    
