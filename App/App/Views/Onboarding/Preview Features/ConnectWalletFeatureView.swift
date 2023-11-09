@@ -35,7 +35,11 @@ struct ConnectWalletFeatureView: View {
             
             Button {
                 Task {
-                    await self.authViewModel.connectWallet()
+                    do {
+                        try await self.authViewModel.connectWallet()
+                    } catch {
+                        print("Error logging in: \(error)")
+                    }
                 }
             } label: {
                 ZStack {
@@ -52,7 +56,7 @@ struct ConnectWalletFeatureView: View {
                     }
                     VStack {
                         Spacer()
-                        
+
                         Text("Connect Wallet")
                             .foregroundStyle(RizzColors.rizzBlue)
                             .font(.title)

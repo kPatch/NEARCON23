@@ -41,7 +41,7 @@ class FocusARView: ARView {
         self.setupARView()
     }
 
-    func setupARView() {
+    func setupARView(worldMap: ARWorldMap? = nil) {
         let config = ARWorldTrackingConfiguration()
 
         config.planeDetection = [.vertical]
@@ -54,6 +54,29 @@ class FocusARView: ARView {
         if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) {
             config.frameSemantics.insert(.personSegmentationWithDepth)
         }
+        
+        config.initialWorldMap = worldMap
+
+        self.session.run(config)
+    }
+    
+    func changeARView(worldMap: ARWorldMap) {
+        let config = ARWorldTrackingConfiguration()
+
+        config.planeDetection = [.vertical]
+        config.environmentTexturing = .automatic
+
+        if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
+            config.sceneReconstruction = .mesh
+        }
+
+        if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) {
+            config.frameSemantics.insert(.personSegmentationWithDepth)
+        }
+        
+        config.isCollaborationEnabled = true
+        
+        config.initialWorldMap = worldMap
 
         self.session.run(config)
     }

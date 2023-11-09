@@ -48,7 +48,7 @@ struct ModelHelper {
         screenEntity.setPosition([0, dimensions.y / 2 + 0.001, 0], relativeTo: housingEntity)
         
         // Implement Texture Material onto Contents
-        Self.fetchImageWithEscaping(imageURL: imageUrl) { url in
+        NonFungibleTokens.fetchImageWithEscaping(imageURL: imageUrl) { url in
             do {
                 guard let url = url else { throw NSError(domain: "Unable to unwrap URL", code: -1) }
                 let texture = try TextureResource.load(contentsOf: url)
@@ -63,29 +63,5 @@ struct ModelHelper {
                 completionHandler(nil)
             }
         }
-    }
-    
-    private static func fetchImageWithEscaping(imageURL: String, completionHandler: @escaping (_ url: URL?) -> Void) {
-        var inputURL = imageURL
-        if inputURL.contains("ipfs://") {
-            let urlGuard = URL(string: inputURL)!
-            inputURL = urlGuard.host() != nil ? "http://ipfs.io/ipfs/\(urlGuard.host()!)" : inputURL
-        }
-        
-        URLSession.shared.dataTask(with: URL(string: imageURL)!) { data, response, error in
-            guard let data else {
-                completionHandler(nil)
-                return
-            }
-
-            do {
-                let id = UUID().uuidString
-                try KingfisherManager.shared.cache.diskStorage.store(value: data, forKey: id)
-                let kfData = KingfisherManager.shared.cache.diskStorage.cacheFileURL(forKey: id)
-                completionHandler(kfData)
-            } catch {
-                completionHandler(nil)
-            }
-        }.resume()
     }
 }

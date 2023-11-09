@@ -26,7 +26,7 @@ struct RizzAppApp: App {
                         }
                     }
             } else {
-                if self.authViewModel.session != nil {
+                if self.authViewModel.owner != nil {
                     NavigationStack {
                         AppTabView()
                             .environmentObject(self.authViewModel)
