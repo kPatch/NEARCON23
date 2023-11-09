@@ -77,7 +77,7 @@ export async function POST(req: Request) {
         metadata: {
             title: title,
             description: description,
-            media: `https://gateway.pinata.cloud/ipfs/${cid}`,
+            media: `https://gateway.pinata.cloud/ipfs/${image_uri}`,
             reference: `ipfs/${ipfsJson.data.IpfsHash}`,
         },
         receiver_id: receiverNFT
