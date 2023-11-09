@@ -2,6 +2,7 @@ import RealityKit
 import ARKit
 import SwiftUI
 import Combine
+import simd
 
 struct ARViewContainer: UIViewRepresentable {
     @EnvironmentObject var arViewModel: MainARViewModel
@@ -32,11 +33,7 @@ struct ARViewContainer: UIViewRepresentable {
             }
         }
 
-        if let location = self.arViewModel.location {
-            guard let hitTestResult = uiView.hitTest(location, types: [.existingPlaneUsingGeometry, .estimatedHorizontalPlane, .estimatedVerticalPlane]).first else {
-                return
-            }
-
+        if let nft = arViewModel.nftConfirmedForPlacement {
             uiView.session.getCurrentWorldMap { worldMap, _ in
                 guard let map = worldMap else { return }
 
@@ -47,16 +44,18 @@ struct ARViewContainer: UIViewRepresentable {
                 self.multipeerSession.sendToAllPeers(data)
             }
             
+            let anchor = AnchorEntity(plane: .any)
+            
             DispatchQueue.main.async {
                 Task {
-                    let urlLink = "https://ipfs.io/ipfs/QmYW6WL7Pcq2jHVn8UNBAMk2CtFexb8mBaxqcmZsV3CBMZ"
-                    guard let model = await self.downloadModel(model: urlLink) else { return }
-                    self.placeModel(transform: hitTestResult.worldTransform, uiView: uiView, model: model)
-
-                    guard let data = try? NSKeyedArchiver.archivedData(withRootObject: MultipeerNFT(transform: SIMD_float4x4_Wrapper(matrix: hitTestResult.worldTransform), model: model), requiringSecureCoding: true) else {
-                        fatalError("can't encode anchor")
+//                    let urlLink = "https://ipfs.io/ipfs/QmYW6WL7Pcq2jHVn8UNBAMk2CtFexb8mBaxqcmZsV3CBMZ"
+                    guard let model = await self.downloadModel(model: nft.asset) else { return }
+                    self.placeModel(anchorEntity: anchor, uiView: uiView, data: model) { matrix in
+                        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: MultipeerNFT(transform: SIMD_float4x4_Wrapper(matrix: matrix), model: model), requiringSecureCoding: true) else {
+                            fatalError("can't encode anchor")
+                        }
+                        self.multipeerSession.sendToAllPeers(data)
                     }
-                    self.multipeerSession.sendToAllPeers(data)
                 }
                 
                 self.arViewModel.location = nil
@@ -64,7 +63,7 @@ struct ARViewContainer: UIViewRepresentable {
         }
         #endif
     }
-    
+
     func downloadModel(model: String) async -> Data? {
         if let url = URL(string: model) {
             return await withCheckedContinuation { con in
@@ -80,7 +79,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         return nil
     }
-    
+
     func placeModel(transform: simd_float4x4, uiView: ARView, model: Data) {
         let anchorEntity = AnchorEntity(world: transform)
         let tempDirectoryURL = FileManager.default.temporaryDirectory
@@ -105,13 +104,9 @@ struct ARViewContainer: UIViewRepresentable {
         }
     }
 
-    func placeModel(transform: simd_float4x4, uiView: ARView, model: String) {
-        let anchorEntity = AnchorEntity(world: transform)
-
+    func placeModel(anchorEntity: AnchorEntity, uiView: ARView, data: Data, closure: @escaping (simd_float4x4) -> Void) {
         DispatchQueue.main.async {
             Task {
-                guard let data: Data = await self.downloadModel(model: model)  else { return }
-                
                 let tempDirectoryURL = FileManager.default.temporaryDirectory
                 let usdzFileURL = tempDirectoryURL.appendingPathComponent(UUID().uuidString).appendingPathExtension("usdz")
                 
@@ -129,6 +124,8 @@ struct ARViewContainer: UIViewRepresentable {
                     
                     anchorEntity.addChild(modelEntity)
                     uiView.scene.addAnchor(anchorEntity)
+                    
+                    closure(anchorEntity.transformMatrix(relativeTo: modelEntity))
                 } catch {
                     print(error)
                 }
