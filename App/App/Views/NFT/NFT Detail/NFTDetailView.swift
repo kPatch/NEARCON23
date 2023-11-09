@@ -8,24 +8,46 @@
 import SwiftUI
 
 struct NFTDetailView: View {
+    @State private var image: Image? = nil
+    
+    let nft: NonFungibleTokens
+    
+    let side = UIScreen.main.bounds.width - 100
+
     var body: some View {
         ZStack {
             Rectangle()
                 .ignoresSafeArea()
                 .foregroundStyle(Color(uiColor: UIImage(named: "BAYC1")!.averageColor!))
-            
+
             ScrollView(showsIndicators: false) {
                 VStack {
                     NFTDetailNavView()
-                    
-                    Image("BAYC1")
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(RoundedRectangle(cornerRadius: 12.0))
-                        .frame(width: UIScreen.main.bounds.width - 100, height: UIScreen.main.bounds.width - 100)
-                    
-                    NFTDetailFeaturesView()
-                    
+
+                    if nft.imageURL.contains("<svg") {
+                        SVGWebView(svgString: nft.imageURL)
+                            .clipShape(RoundedRectangle(cornerRadius: 12.0))
+                            .frame(width: side, height: side)
+                    } else if let image = self.image {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(RoundedRectangle(cornerRadius: 12.0))
+                            .frame(width: side, height: side)
+                    } else if let url = URL(string: nft.imageURL) {
+                        AsyncImage(url: url) { image in
+                            image.image?.resizable().scaledToFit()
+                        }
+                            .clipShape(RoundedRectangle(cornerRadius: 12.0))
+                            .frame(width: side, height: side)
+                    } else {
+                        RoundedRectangle(cornerRadius: 12.0)
+                            .foregroundStyle(RizzColors.rizzGray)
+                            .frame(width: side, height: side)
+                    }
+
+                    NFTDetailFeaturesView(nft: self.nft)
+
                     ZStack {
                         NFTTopDetailView()
                     }
@@ -36,6 +58,11 @@ struct NFTDetailView: View {
                             .foregroundStyle(RizzColors.rizzGray)
                     }
                 }
+            }
+        }
+        .task {
+            if let image = await self.nft.getImage() {
+                self.image = image
             }
         }
     }
@@ -113,6 +140,8 @@ struct NFTDetailNavView: View {
 }
 
 struct NFTDetailFeaturesView: View {
+    let nft: NonFungibleTokens
+    
     var body: some View {
         HStack {
             DetailButtonView(icon: "arrow.up.left.and.arrow.down.right")
@@ -166,8 +195,4 @@ struct DetailButtonView: View {
                 .foregroundStyle(Color(uiColor: UIImage(named: "BAYC1")!.averageColorDarker!.contrastingColor).opacity(0.5))
         }
     }
-}
-
-#Preview {
-    NFTDetailView()
 }
