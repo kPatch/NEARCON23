@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D01104C2AFD09040012357E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D01104B2AFD09040012357E /* GoogleService-Info.plist */; };
 		7D1BB6122AFCDB5B0048C29F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7D1BB6112AFCDB5B0048C29F /* FirebaseAnalytics */; };
 		7D1BB6142AFCDB5B0048C29F /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 7D1BB6132AFCDB5B0048C29F /* FirebaseAnalyticsOnDeviceConversion */; };
 		7D1BB6162AFCDB5B0048C29F /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7D1BB6152AFCDB5B0048C29F /* FirebaseAnalyticsSwift */; };
@@ -86,6 +87,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7D01104B2AFD09040012357E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7D5FC8A82ABFC51600BB2F2D /* MainARViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainARViewModel.swift; sourceTree = "<group>"; };
 		7D5FC8AC2AC0034500BB2F2D /* GridModeOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridModeOptionsView.swift; sourceTree = "<group>"; };
 		7D5FC8D22AC0373B00BB2F2D /* NonFungibleTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonFungibleTokens.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 		7D64AA382ABE7D1000EBE52E /* App */ = {
 			isa = PBXGroup;
 			children = (
+				7D01104B2AFD09040012357E /* GoogleService-Info.plist */,
 				7DB46A6D2AFC731700822217 /* Info.plist */,
 				7D64AA4D2ABE923A00EBE52E /* Utils */,
 				7D64AA492ABE901C00EBE52E /* Models */,
@@ -557,6 +560,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DB46A642AFC719200822217 /* NEARCONLogo.usdz in Resources */,
+				7D01104C2AFD09040012357E /* GoogleService-Info.plist in Resources */,
 				7D64AA3E2ABE7D1200EBE52E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -773,7 +777,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.opendive.RizApp;
+				PRODUCT_BUNDLE_IDENTIFIER = io.opendive.AuthenticationExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -805,7 +809,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.opendive.RizApp;
+				PRODUCT_BUNDLE_IDENTIFIER = io.opendive.AuthenticationExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

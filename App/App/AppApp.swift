@@ -15,9 +15,9 @@ struct RizzAppApp: App {
     @StateObject var authViewModel = AuthViewModel.instance
     @StateObject var appearenceViewModel = AppearenceViewModel.instance
     
-//    init() {
-//        FirebaseApp.configure()
-//    }
+    init() {
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {
