@@ -8,15 +8,26 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+    
+    init() {
+        self.viewModel.fetchNFTs()
+    }
+    
     var body: some View {
-        ZStack {
-            VStack {
-                // Nav Bar
-                HomeNavBarView()
-                
-                // My NFTs
-                MyNFTsView()
+        ScrollView {
+            ZStack {
+                VStack {
+                    // Nav Bar
+                    HomeNavBarView()
+                    
+                    // My NFTs
+                    MyNFTsView()
+                }
             }
+        }
+        .refreshable {
+            self.viewModel.fetchNFTs()
         }
     }
 }

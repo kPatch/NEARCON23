@@ -74,7 +74,7 @@ struct ARViewContainer: UIViewRepresentable {
                 self.multipeerSession.sendToAllPeers(data)
             }
             
-            let anchor = AnchorEntity(plane: .any)
+            let anchor = AnchorEntity(plane: .horizontal)
             
             DispatchQueue.main.async {
                 Task {

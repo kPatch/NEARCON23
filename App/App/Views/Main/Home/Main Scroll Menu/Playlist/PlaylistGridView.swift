@@ -18,10 +18,9 @@ struct PlaylistGridView: View {
                 }
                 .padding(.bottom, 140)
             }
+            .refreshable {
+                self.authViewModel.fetchNFTs()
+            }
         }
     }
 }
-
-//#Preview {
-//    PlaylistGridView()
-//}

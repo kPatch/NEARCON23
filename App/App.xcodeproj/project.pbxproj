@@ -11,6 +11,9 @@
 		7D01104E2AFD0FED0012357E /* MintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D01104D2AFD0FED0012357E /* MintView.swift */; };
 		7D01106B2AFD18DC0012357E /* OpenAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7D01106A2AFD18DC0012357E /* OpenAIKit */; };
 		7D01106D2AFD1A010012357E /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D01106C2AFD1A010012357E /* APIKey.swift */; };
+		7D0110712AFD3F430012357E /* PinataFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D01106E2AFD3F420012357E /* PinataFormData.swift */; };
+		7D0110722AFD3F430012357E /* PinataFormDataValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D01106F2AFD3F430012357E /* PinataFormDataValue.swift */; };
+		7D0110732AFD3F430012357E /* PinataIPFSResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0110702AFD3F430012357E /* PinataIPFSResponse.swift */; };
 		7D1BB61D2AFCDB6A0048C29F /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 7D1BB61C2AFCDB6A0048C29F /* GoogleSignIn */; };
 		7D1BB61F2AFCDB6A0048C29F /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7D1BB61E2AFCDB6A0048C29F /* GoogleSignInSwift */; };
 		7D1BB6212AFCDBCE0048C29F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7D1BB6202AFCDBCE0048C29F /* FirebaseAuth */; };
@@ -84,6 +87,9 @@
 		7D01104B2AFD09040012357E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7D01104D2AFD0FED0012357E /* MintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MintView.swift; sourceTree = "<group>"; };
 		7D01106C2AFD1A010012357E /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		7D01106E2AFD3F420012357E /* PinataFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinataFormData.swift; sourceTree = "<group>"; };
+		7D01106F2AFD3F430012357E /* PinataFormDataValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinataFormDataValue.swift; sourceTree = "<group>"; };
+		7D0110702AFD3F430012357E /* PinataIPFSResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinataIPFSResponse.swift; sourceTree = "<group>"; };
 		7D5FC8A82ABFC51600BB2F2D /* MainARViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainARViewModel.swift; sourceTree = "<group>"; };
 		7D5FC8AC2AC0034500BB2F2D /* GridModeOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridModeOptionsView.swift; sourceTree = "<group>"; };
 		7D5FC8D22AC0373B00BB2F2D /* NonFungibleTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonFungibleTokens.swift; sourceTree = "<group>"; };
@@ -253,6 +259,9 @@
 		7D64AA4D2ABE923A00EBE52E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				7D01106E2AFD3F420012357E /* PinataFormData.swift */,
+				7D01106F2AFD3F430012357E /* PinataFormDataValue.swift */,
+				7D0110702AFD3F430012357E /* PinataIPFSResponse.swift */,
 				7DB46A652AFC71DC00822217 /* ImagePicker.swift */,
 				7DB46A622AFC718400822217 /* Temporary */,
 				7D8DED422ABF46270094A71E /* Extensions */,
@@ -555,6 +564,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D0110732AFD3F430012357E /* PinataIPFSResponse.swift in Sources */,
 				7D8DED102ABEE0370094A71E /* HomeView.swift in Sources */,
 				7D8DED292ABF38B90094A71E /* BigCardGridView.swift in Sources */,
 				7DB46A6F2AFC76C800822217 /* NFTType.swift in Sources */,
@@ -571,6 +581,7 @@
 				7D8DED712ABF86650094A71E /* AppTabView.swift in Sources */,
 				7D5FC8A92ABFC51600BB2F2D /* MainARViewModel.swift in Sources */,
 				7D8DED2D2ABF38F40094A71E /* CollectorClusterGridView.swift in Sources */,
+				7D0110722AFD3F430012357E /* PinataFormDataValue.swift in Sources */,
 				7D64AA562ABEB0C300EBE52E /* FeatureItemView.swift in Sources */,
 				7D8DED632ABF82B50094A71E /* ArtPiecePickerView.swift in Sources */,
 				7D8DED392ABF39780094A71E /* NetworkView.swift in Sources */,
@@ -607,6 +618,7 @@
 				7D8DED332ABF393D0094A71E /* NFTCategoryView.swift in Sources */,
 				7D8DED172ABF37DE0094A71E /* MyNFTsView.swift in Sources */,
 				7D01104E2AFD0FED0012357E /* MintView.swift in Sources */,
+				7D0110712AFD3F430012357E /* PinataFormData.swift in Sources */,
 				7D8DED312ABF39280094A71E /* HomeNavBarView.swift in Sources */,
 				7DB46A612AFC715F00822217 /* SIMD_float4x4Wrapper.swift in Sources */,
 				7D8DED212ABF38540094A71E /* PlaylistScrollView.swift in Sources */,

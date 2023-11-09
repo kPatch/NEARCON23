@@ -35,11 +35,16 @@ struct ArtPiecePickerView: View {
                     HStack {
                         ForEach(authViewModel.nfts) { nft in
                             Button {
-                                ModelHelper.modelEntity(imageUrl: nft.imageURL) { entity in
-                                    self.arViewModel.selectedPiece = entity
+                                if nft.asset != "" {
+                                    self.arViewModel.nftConfirmedForPlacement = nft
+                                    self.arViewModel.isShowingAdder = true
+                                } else {
+                                    ModelHelper.modelEntity(imageUrl: nft.imageURL) { entity in
+                                        self.arViewModel.selectedPiece = entity
+                                    }
+                                    self.arViewModel.imageForNFTPlacement = nft.imageURL
+                                    self.arViewModel.isShowingAdder = true
                                 }
-                                self.arViewModel.imageForNFTPlacement = nft.imageURL
-                                self.arViewModel.isShowingAdder = true
                             } label: {
                                 ArtPiecePickerItemView(nft: nft.imageURL)
                             }

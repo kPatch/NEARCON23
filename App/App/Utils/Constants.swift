@@ -26,40 +26,24 @@ struct RizzOnboarding {
     static let features: [FeatureItem] = [
         FeatureItem(
             icon: "Wallet",
-            title: "Not another boring wallet",
-            description: "Non-Fungible Network for Non-Fungible people. A social wallet with UX for creating, sharing, and showcasing static dynamic NFTs."
+            title: "Lorum ipsum",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         ),
         FeatureItem(
             icon: "Tech",
-            title: "Web3 at its core",
-            description: "Interconnected, integrated, end to end experience. Created for artists, collectors and patrons.\n"
+            title: "Lorum ipsum",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         ),
         FeatureItem(
             icon: "Connected",
-            title: "Powered by DApps",
-            description: "Immersive and engaging NFT experiences, Integrated blockchain technology, increase in utility across the platform."
+            title: "Lorum ipsum",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         ),
         FeatureItem(
             icon: "Logo",
-            title: "Track any Wallet",
-            description: "Sign in below using WalletConnect."
+            title: "See the Unseen – Where Your World Meets the Future",
+            description: "Sign in below."
         )
-    ]
-    
-    static let discover: [Collection] = [
-        Collection(title: "Bored Ape Yacht Club", logo: "BAYCLogo", NFTs: ["BAYC1"]),
-        Collection(title: "Cool Cats", logo: "CoolCatLogo", NFTs: ["CoolCat1", "CoolCat2"]),
-        Collection(title: "Robotos", logo: "RobotosLogo", NFTs: ["Robotos1"]),
-        Collection(title: "Rare Pizza Boxes", logo: "PizzaBoxLogo", NFTs: ["PizzaBox1", "PizzaBox2", "PizzaBox3", "PizzaBox4", "PizzaBox5"]),
-        Collection(title: "Real Punks", logo: "RealPunkLogo", NFTs: ["RealPunk1", "RealPunk2", "RealPunk3"])
-    ]
-    
-    static let nftCollection: [String] = [
-        "BAYC1",
-        "CoolCat1", "CoolCat2",
-        "Robotos1",
-        "PizzaBox1", "PizzaBox2", "PizzaBox3", "PizzaBox4", "PizzaBox5",
-        "RealPunk1", "RealPunk2", "RealPunk3"
     ]
 }
 
@@ -79,3 +63,9 @@ struct FeatureItem: Hashable, Identifiable {
         return "\(self.icon)-\(self.title)-\(self.description)"
     }
 }
+
+let mockNFTs: [NonFungibleTokens] = [
+    NonFungibleTokens(name: "Rogue Fox #855", collectionName: "Rogues Genesis", description: "The Great Collapse. No fox knows the cause. From the ashes the fox arose, gathering in small groups, rebuilding by claw and by paw. Small settlements grew into towns and some even evolved into great skulks…But the Barren Lands are hard to traverse and keep these disparate settlements isolated. Only Rogues are cunning enough to roam between settlements, trading stories, goods and Lost Artifacts. ## Welcome to the Rogue Fox Guild, wanderer, and may luck be with you on the journey.", properties: [:], image: "https://paras-ipfs.paras.id/2bb216fe48095e8a40151fefd602691420dea30a", asset: "", tokenId: "", type: .regular, organization: nil),
+    NonFungibleTokens(name: "Rogue Fox #763", collectionName: "Rogues Genesis", description: "The Great Collapse. No fox knows the cause. From the ashes the fox arose, gathering in small groups, rebuilding by claw and by paw. Small settlements grew into towns and some even evolved into great skulks…But the Barren Lands are hard to traverse and keep these disparate settlements isolated. Only Rogues are cunning enough to roam between settlements, trading stories, goods and Lost Artifacts. ## Welcome to the Rogue Fox Guild, wanderer, and may luck be with you on the journey.", properties: [:], image: "https://paras-ipfs.paras.id/214efa4a3bd9ef95e5990d112c2d88483c17bed1", asset: "", tokenId: "", type: .regular, organization: nil),
+    NonFungibleTokens(name: "Welcome To NEARCON 2023", collectionName: "OpenDive", description: "NEARCON 2023 for the win!", properties: [:], image: "https://ipfs.io/ipfs/QmWBgjVcKnRKbxJVE4X5UESy6BNzp9uyKTGRB4vPkYRLgY", asset: "https://ipfs.io/ipfs/QmYW6WL7Pcq2jHVn8UNBAMk2CtFexb8mBaxqcmZsV3CBMZ", tokenId: "", type: .model, organization: nil)
+]

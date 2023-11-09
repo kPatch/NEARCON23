@@ -28,14 +28,15 @@ struct LoginView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 140, height: 120)
+                        .offset(y: -40)
                     
-                    Text("Track any Wallet")
+                    Text("See the Unseen – Where Your World Meets the Future")
                         .foregroundStyle(.rizzWhite)
                         .font(.system(size: 24))
                         .bold()
                         .padding(.top, 190)
                     
-                    Text("Paste or scan your ENS, Solana, Ethereum,or Polygon address to get started")
+                    Text("Sign in using one of the methods below")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.rizzWhite)
                         .font(.system(size: 16))
@@ -51,7 +52,7 @@ struct LoginView: View {
                             self.showEmailLogin = true
                         } label: {
                             Text("Login Using Email")
-                                .foregroundStyle(RizzColors.rizzBlue)
+                                .foregroundStyle(RizzColors.rizzGreen)
                                 .font(.title2)
                                 .bold()
                                 .background {
@@ -60,7 +61,7 @@ struct LoginView: View {
                                         .frame(width: UIScreen.main.bounds.width - 60, height: 50)
                                         .overlay {
                                             Capsule()
-                                                .stroke(RizzColors.rizzBlue, lineWidth: 5)
+                                                .stroke(RizzColors.rizzGreen, lineWidth: 5)
                                         }
                                 }
                         }
@@ -69,7 +70,7 @@ struct LoginView: View {
                             self.authViewModel.signInWithGoogle()
                         } label: {
                             Text("Login Using Google")
-                                .foregroundStyle(RizzColors.rizzBlue)
+                                .foregroundStyle(RizzColors.rizzGreen)
                                 .font(.title2)
                                 .bold()
                                 .background {
@@ -78,7 +79,7 @@ struct LoginView: View {
                                         .frame(width: UIScreen.main.bounds.width - 60, height: 50)
                                         .overlay {
                                             Capsule()
-                                                .stroke(RizzColors.rizzBlue, lineWidth: 5)
+                                                .stroke(RizzColors.rizzGreen, lineWidth: 5)
                                         }
                                 }
                         }
@@ -116,11 +117,59 @@ struct LoginView: View {
         .sheet(isPresented: $showEmailLogin) {
             EmailLoginView()
         }
+        .sheet(isPresented: $authViewModel.isSigningUp) {
+            CreateNearIDView()
+        }
     }
 }
 
 #Preview {
     LoginView(feature: RizzOnboarding.features[3])
+}
+
+struct CreateNearIDView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+    
+    @State private var hasSubmitted: Bool = false
+    
+    @State private var nearId: String = ""
+    
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .foregroundStyle(RizzColors.rizzMatteBlack)
+                .ignoresSafeArea()
+            
+            VStack {
+                Text("Welcome to !")
+                    .bold()
+                    .font(.title)
+                    .foregroundStyle(.green)
+                
+                InputFieldView(text: $nearId, name: "Enter your new NEAR ID")
+                    .padding(.bottom, 30)
+                
+                Button {
+                    self.hasSubmitted = true
+                    viewModel.createNearID(id: self.nearId)
+                } label: {
+                    Text("LFG")
+                        .foregroundStyle(RizzColors.rizzBlue)
+                        .font(.title2)
+                        .bold()
+                        .background {
+                            Capsule()
+                                .foregroundStyle(RizzColors.rizzWhite)
+                                .frame(width: UIScreen.main.bounds.width - 60, height: 50)
+                                .overlay {
+                                    Capsule()
+                                        .stroke(RizzColors.rizzBlue, lineWidth: 5)
+                                }
+                        }
+                }
+            }
+        }
+    }
 }
 
 struct EmailLoginView: View {
