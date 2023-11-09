@@ -48,7 +48,7 @@ class AuthViewModel: ObservableObject {
         // Configure Google Sign In
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
-        
+
         GIDSignIn.sharedInstance.signIn(withPresenting: getRootViewController()) { user, error in
             guard let user, let idToken = user.user.idToken else {
                 if let error = error {
@@ -59,9 +59,34 @@ class AuthViewModel: ObservableObject {
                 print("Unknown error")
                 return
             }
-            
+
             let accessToken = user.user.accessToken
             let credential = GoogleAuthProvider.credential(withIDToken: idToken.tokenString, accessToken: accessToken.tokenString)
+
+            Auth.auth().signIn(with: credential) { result, error in
+                guard let user = result?.user else { return }
+
+                self.userSession = user
+                self.fetchUser()
+            }
+        }
+    }
+    
+    func login(withEmail email: String, password: String, completion: @escaping(String) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                let logResult = "\(error.localizedDescription)"
+                if logResult == "There is no user record corresponding to this identifier. The user may have been deleted." {
+                    completion("Incorrect email or password.")
+                } else {
+                    completion(logResult)
+                }
+            }
+            
+            guard let user = result?.user else { return }
+            
+            self.userSession = user
+            self.fetchUser()
         }
     }
     
@@ -147,6 +172,7 @@ struct User: Identifiable, Decodable, Equatable {
     
     let username: String
     let email: String
+    let walletAddress: String?
     
     var isCurrentUser: Bool { return AuthViewModel.instance.userSession?.uid == id}
     

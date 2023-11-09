@@ -10,7 +10,7 @@ import Firebase
 import GoogleSignIn
 
 struct LoginView: View {
-//    @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     @State private var showEmailLogin: Bool = false
     @State private var isShowingLoginButtons: Bool = false
@@ -66,7 +66,7 @@ struct LoginView: View {
                         }
                         
                         Button {
-                            
+                            self.authViewModel.signInWithGoogle()
                         } label: {
                             Text("Login Using Google")
                                 .foregroundStyle(RizzColors.rizzBlue)
@@ -127,20 +127,21 @@ struct EmailLoginView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var logMessage: String?
+
     @EnvironmentObject var viewModel: AuthViewModel
-    
+
     var body: some View {
         ZStack {
             RizzColors.rizzGray
                 .ignoresSafeArea()
-            
+
             VStack {
                 Text("Welcome to Web3")
                     .font(.system(size: 24))
                     .bold()
                     .foregroundStyle(.white)
                     .padding(.bottom, 20)
-                
+
                 VStack(spacing: 20) {
                   // Email field
                   CustomField(text: $email, placeholder: Text("Email"), imageName: "envelope", isSecure: false)
@@ -151,9 +152,9 @@ struct EmailLoginView: View {
                 
                 // Sign in
                 Button {
-//                    viewModel.login(withEmail: email, password: password) { logResult in
-//                        self.logMessage = logResult
-//                    }
+                    viewModel.login(withEmail: email, password: password) { logResult in
+                        self.logMessage = logResult
+                    }
                 } label: {
                     Text("Sign In")
                         .font(.headline)
@@ -164,7 +165,7 @@ struct EmailLoginView: View {
                         .padding()
                 }
                 .offset(y: 50)
-                
+
                 Spacer()
 
                 // Sign up button
