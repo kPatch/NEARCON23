@@ -19,6 +19,7 @@ struct NonFungibleTokens: Identifiable {
     let asset: String
     let tokenId: String
     let type: NFTType
+    let organization: String?
     let id = UUID().uuidString
 
     var imageURL: String {

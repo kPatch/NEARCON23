@@ -9,13 +9,21 @@ import SwiftUI
 
 struct BigCardGridView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
+    @State private var currentDetailNFT: NonFungibleTokens?
     
     var body: some View {
         ScrollView(showsIndicators: false) {
             ForEach(authViewModel.nfts) { nft in
-                BigCardView(nft: nft)
+                Button {
+                    self.currentDetailNFT = nft
+                } label: {
+                    BigCardView(nft: nft)
+                }
             }
             .padding(.bottom, 140)
+            .sheet(item: $currentDetailNFT) { nftDetail in
+                NFTDetailView(nft: nftDetail)
+            }
         }
     }
 }
