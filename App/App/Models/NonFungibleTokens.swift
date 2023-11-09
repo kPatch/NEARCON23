@@ -31,19 +31,17 @@ struct NonFungibleTokens: Identifiable {
         return inputURL
     }
     
-//    guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
-//        print("image doesn't exist")
-//        return nil
-//    }
-//    
-//    return UIImage.animatedImageWithSource(source)
-    
     func getAsset() async throws -> Data? {
         guard let url = URL(string: self.asset) else { return nil }
-        return try await RestHandler.asyncData(
-            with: url,
-            method: .get
-        )
+        return try await withCheckedThrowingContinuation { con in
+            URLSession.shared.dataTask(with: URL(string: imageURL)!) { data, response, error in
+                guard let data else {
+                    con.resume(returning: nil)
+                    return
+                }
+                con.resume(returning: data)
+            }.resume()
+        }
     }
     
     func getImage() async -> Image? {
@@ -56,13 +54,6 @@ struct NonFungibleTokens: Identifiable {
                 guard let uiImage = UIImage(data: url.dataRepresentation) else {
                     con.resume(returning: nil)
                     return
-                }
-
-                if 
-                    let source = CGImageSourceCreateWithData(url.dataRepresentation as CFData, nil),
-                    let uiImageGif = UIImage.animatedImageWithSource(source) 
-                {
-                    con.resume(returning: Image(uiImage: uiImageGif))
                 }
 
                 con.resume(returning: Image(uiImage: uiImage))

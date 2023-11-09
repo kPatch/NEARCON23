@@ -30,6 +30,7 @@ class MainARViewModel: ObservableObject {
     @Published var displayedPieces: [ModelEntity]? = nil
     @Published var selectedPiece: ModelEntity? = nil
     @Published var modelConfirmedForPlacement: ModelEntity? = nil
+    @Published var nftConfirmedForPlacement: NonFungibleTokens? = nil
 
     @Published var isShowingPicker = true
     @Published var isShowingAdder = false

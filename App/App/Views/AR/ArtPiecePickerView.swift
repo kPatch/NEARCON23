@@ -7,13 +7,6 @@ struct ArtPiecePickerView: View {
     var body: some View {
         ZStack {
             VStack {
-                Button("Collab Mode") {
-                    self.arViewModel.isCollaborationEnabled.toggle()
-                }
-                .padding()
-                .background(self.arViewModel.isCollaborationEnabled ? .red : .green)
-                .clipShape(Capsule())
-                
                 Spacer()
 
                 Capsule()
@@ -23,6 +16,20 @@ struct ArtPiecePickerView: View {
 
             VStack {
                 Spacer()
+
+                HStack {
+                    Button {
+                        self.arViewModel.isCollaborationEnabled.toggle()
+                    } label: {
+                        Image(self.arViewModel.isCollaborationEnabled ? "OnCollab" : "OffCollab")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                    }
+
+                    Spacer()
+                }
+                .padding(.leading, 30)
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {

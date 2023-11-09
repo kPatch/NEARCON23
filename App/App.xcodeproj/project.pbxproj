@@ -72,7 +72,6 @@
 		7DB46A6F2AFC76C800822217 /* NFTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB46A6E2AFC76C800822217 /* NFTType.swift */; };
 		7DB46A722AFC7F3400822217 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 7DB46A712AFC7F3400822217 /* Apollo */; };
 		7DB46A772AFC859D00822217 /* AnyCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 7DB46A762AFC859D00822217 /* AnyCodable */; };
-		7DB46A792AFC876000822217 /* GIFImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB46A782AFC876000822217 /* GIFImages.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,7 +135,6 @@
 		7DB46A6B2AFC72E700822217 /* MultipeerNFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipeerNFT.swift; sourceTree = "<group>"; };
 		7DB46A6D2AFC731700822217 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7DB46A6E2AFC76C800822217 /* NFTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTType.swift; sourceTree = "<group>"; };
-		7DB46A782AFC876000822217 /* GIFImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImages.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,7 +343,6 @@
 			children = (
 				7D8DED432ABF464B0094A71E /* UIImage+extension.swift */,
 				7D8DED452ABF4EAE0094A71E /* UIColor+extension.swift */,
-				7DB46A782AFC876000822217 /* GIFImages.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -561,7 +558,6 @@
 				7D8DED462ABF4EAE0094A71E /* UIColor+extension.swift in Sources */,
 				7D8DED652ABF82B50094A71E /* SecondaryPickerView.swift in Sources */,
 				7D8DED0D2ABED0520094A71E /* ConnectWalletFeatureView.swift in Sources */,
-				7DB46A792AFC876000822217 /* GIFImages.swift in Sources */,
 				7D8DED642ABF82B50094A71E /* MainARView.swift in Sources */,
 				7D5FC8AD2AC0034500BB2F2D /* GridModeOptionsView.swift in Sources */,
 				7DB46A5F2AFC711D00822217 /* MultipeerSession.swift in Sources */,

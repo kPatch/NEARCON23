@@ -54,12 +54,16 @@ class FocusARView: ARView {
         if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) {
             config.frameSemantics.insert(.personSegmentationWithDepth)
         }
-        
+
         config.initialWorldMap = worldMap
 
         self.session.run(config)
+
+        let anchor = AnchorEntity(world: [0, 0, 0])
+        anchor.addChild(CustomDirectionalLight())
+        self.scene.addAnchor(anchor)
     }
-    
+
     func changeARView(worldMap: ARWorldMap) {
         let config = ARWorldTrackingConfiguration()
 
@@ -73,9 +77,9 @@ class FocusARView: ARView {
         if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) {
             config.frameSemantics.insert(.personSegmentationWithDepth)
         }
-        
+
         config.isCollaborationEnabled = true
-        
+
         config.initialWorldMap = worldMap
 
         self.session.run(config)
