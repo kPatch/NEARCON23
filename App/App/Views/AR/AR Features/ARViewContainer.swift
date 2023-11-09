@@ -27,10 +27,40 @@ struct ARViewContainer: UIViewRepresentable {
                 self.placeModel(transform: nft.transform.matrix, uiView: uiView, model: nft.model)
             }
 
+            if let regularNFT = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MultipeerRegularNFT.self, from: receivedData) {
+                ModelHelper.modelEntity(imageUrl: regularNFT.image) { entity in
+                    guard let modelEntity = entity else { return }
+                    self.placeModel(transform: regularNFT.transform.matrix, uiView: uiView, modelEntity: modelEntity)
+                }
+            }
+
             DispatchQueue.main.async {
                 self.multipeerSession.receivedData = nil
                 self.multipeerSession.dataSenderPeerID = nil
             }
+        }
+
+        if let modelEntity = arViewModel.modelConfirmedForPlacement, let image = arViewModel.imageForNFTPlacement {
+            uiView.session.getCurrentWorldMap { worldMap, _ in
+                guard let map = worldMap else { return }
+
+                guard let data = try? NSKeyedArchiver.archivedData(withRootObject: map, requiringSecureCoding: true) else {
+                    fatalError("can't encode anchor")
+                }
+
+                self.multipeerSession.sendToAllPeers(data)
+            }
+            
+            let anchorEntity = AnchorEntity(plane: .any)
+            anchorEntity.addChild(modelEntity)
+            uiView.scene.addAnchor(anchorEntity)
+            
+            let matrix = anchorEntity.transformMatrix(relativeTo: modelEntity)
+            
+            guard let data = try? NSKeyedArchiver.archivedData(withRootObject: MultipeerRegularNFT(transform: SIMD_float4x4_Wrapper(matrix: matrix), image: image), requiringSecureCoding: true) else {
+                fatalError("can't encode anchor")
+            }
+            self.multipeerSession.sendToAllPeers(data)
         }
 
         if let nft = arViewModel.nftConfirmedForPlacement {
@@ -57,8 +87,8 @@ struct ARViewContainer: UIViewRepresentable {
                         self.multipeerSession.sendToAllPeers(data)
                     }
                 }
-                
-                self.arViewModel.location = nil
+
+                self.arViewModel.nftConfirmedForPlacement = nil
             }
         }
         #endif
@@ -93,15 +123,23 @@ struct ARViewContainer: UIViewRepresentable {
             // Apply a scale transformation to make the logo 5 times smaller
             let scale: Float = 1.0 / 400.0 // Adjust this value as necessary
             modelEntity.scale = SIMD3<Float>(scale, scale, scale)
-
-            // Add the AnchorEntity to the ARView's scene
-            uiView.scene.addAnchor(anchorEntity)
             
             anchorEntity.addChild(modelEntity)
             uiView.scene.addAnchor(anchorEntity)
         } catch {
             print(error)
         }
+    }
+    
+    func placeModel(transform: simd_float4x4, uiView: ARView, modelEntity: ModelEntity) {
+        let anchorEntity = AnchorEntity(world: transform)
+        
+        // Apply a scale transformation to make the logo 5 times smaller
+        let scale: Float = 1.0 / 400.0 // Adjust this value as necessary
+        modelEntity.scale = SIMD3<Float>(scale, scale, scale)
+        
+        anchorEntity.addChild(modelEntity)
+        uiView.scene.addAnchor(anchorEntity)
     }
 
     func placeModel(anchorEntity: AnchorEntity, uiView: ARView, data: Data, closure: @escaping (simd_float4x4) -> Void) {
@@ -118,9 +156,6 @@ struct ARViewContainer: UIViewRepresentable {
                     // Apply a scale transformation to make the logo 5 times smaller
                     let scale: Float = 1.0 / 400.0 // Adjust this value as necessary
                     modelEntity.scale = SIMD3<Float>(scale, scale, scale)
-
-                    // Add the AnchorEntity to the ARView's scene
-                    uiView.scene.addAnchor(anchorEntity)
                     
                     anchorEntity.addChild(modelEntity)
                     uiView.scene.addAnchor(anchorEntity)

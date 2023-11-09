@@ -17,9 +17,6 @@ struct MainARView: View {
                 .environmentObject(self.arViewModel)
                 .environmentObject(self.multipeerSession)
                 .ignoresSafeArea()
-                .onTapGesture { location in
-                    arViewModel.location = location
-                }
 
             if self.arViewModel.isShowingAdder {
                 VStack {
