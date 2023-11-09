@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NetworkView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     var body: some View {
         ZStack {
             Capsule()
@@ -21,11 +23,11 @@ struct NetworkView: View {
                     .foregroundStyle(RizzColors.rizzWhite)
                     .frame(width: 30, height: 30)
                 
-                Text("153 ")
+                Text("\(viewModel.nfts.count) ")
                     .foregroundStyle(RizzColors.rizzWhite)
                     .bold()
                 
-                Text("NFTs")
+                Text("\(viewModel.nfts.count == 1 ? "NFT" : "NFTs")")
                     .foregroundStyle(RizzColors.rizzWhite)
             }
         }

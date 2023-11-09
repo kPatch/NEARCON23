@@ -117,7 +117,7 @@ struct ActionButtonView: View {
                 
                 NavigationLink(
                     isActive: $mintNFTPressed,
-                    destination: { HelloView() }, 
+                    destination: { MintView() }, 
                     label: { }
                 )
             }

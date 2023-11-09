@@ -10,7 +10,7 @@ import SwiftUI
 struct PreviewFeaturesView: View {
     var body: some View {
         ZStack {
-            Image("Background")
+            Image("EmailLoginBackground")
                 .resizable()
                 .ignoresSafeArea()
             

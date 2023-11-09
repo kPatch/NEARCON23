@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-import Combine
 import SwiftyJSON
 import AnyCodable
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
+import OpenAIKit
 
 class AuthViewModel: ObservableObject {
     static let instance: AuthViewModel = AuthViewModel()
@@ -19,17 +19,74 @@ class AuthViewModel: ObservableObject {
     @Published var nfts: [NonFungibleTokens] = []
     @Published var playlist: [String: [NonFungibleTokens]] = [:]
 
-    @Published var userSession: FirebaseAuth.User?
+    @Published var privateKey: String?
     @Published var owner: String?
+    @Published var uid: String?
     
-    private var cancellables = Set<AnyCancellable>()
+    @Published var isSigningUp: Bool = false
+    @Published var selectedImage: UIImage? = nil
+    
+    let hostId: String = "10.145.183.201"
 
-    private init() {
-//        userSession = Auth.auth().currentUser
+    private init() { }
+    
+    func mintNFT(name: String, description: String) {
+        guard let selectedImage = selectedImage else { print("NO PICS"); return }
+        guard let id = self.owner, let privateKey = self.privateKey else { return }
+        guard let url = URL(string: "http://\(hostId):3000/api/accountCreate") else { print("NO URL"); return }  // TODO: Implement actual function
+        
+        DispatchQueue.main.async {
+            Task {
+                guard let image = try await self.uploadScreenshot(image: selectedImage) else { print("NO UPLOAD"); return }
+
+                let body: [String: AnyCodable] = [
+                    "accountId" : AnyCodable(id),
+                    "title" : AnyCodable(name),
+                    "description": AnyCodable(description),
+                    "image_uri": AnyCodable(image),
+                    "privateKey": AnyCodable(privateKey),
+                    "receiverNFT": AnyCodable("INSERT CONTRACT HERE") // TODO: Put the contract ID here
+                ]
+                let jsonData = try? JSONEncoder().encode(body)
+
+                let _ = try await RestHandler.asyncData(with: url, method: .post, body: jsonData)  // TODO: Figure out how to handle return values
+            }
+        }
     }
+    
+    @MainActor
+    public func uploadScreenshot(image: UIImage) async throws -> String? {
+        if let dataImage = image.jpegData(compressionQuality: 0.65) {
+            let base64Image = dataImage.base64EncodedString()
+            return try await self.uploadURL(base64: base64Image)
+        }
+        return nil
+    }
+    
+    private func uploadURL(base64: String) async throws -> String {
+        let formRequest = PiantaFormData(formUrl: URL(string: "https://api.pinata.cloud/pinning/pinFileToIPFS")!)
+        let imageName = "\(self.owner!)_\(UUID().uuidString)"
 
-    public func connectWallet() async throws {
-        self.fetchNFTs()
+        guard let image = try OpenAI(Configuration(organizationId: "", apiKey: "")).decodeBase64Image(base64).jpegData(compressionQuality: 1.0) else {
+            throw NSError(domain: "Unable to convert image to data", code: -1)
+        }
+
+        formRequest.addDataField(
+            named: "file",
+            formData: PiantaFormDataValue(
+                data: image,
+                mimeType: "image/png",
+                fileName: "\(imageName).jpg"
+            )
+        )
+
+        formRequest.addTextField(named: "pinataMetadata", value: "{\"name\": \"\(imageName)\"}")
+
+        let request = formRequest.asURLRequest(apiKey: pinataJWT)
+        let encodedData = try await RestHandler.asyncData(with: request)
+        let decodedResult: PinataIPFSResponse = try await RestHandler.decodeData(with: encodedData)
+
+        return "https://ipfs.io/ipfs/\(decodedResult.ipfsHash)"
     }
     
     func signInWithGoogle() {
@@ -55,9 +112,42 @@ class AuthViewModel: ObservableObject {
 
             Auth.auth().signIn(with: credential) { result, error in
                 guard let user = result?.user else { return }
-
-                self.userSession = user
+                self.lookupNearID(uid: user.uid)
             }
+        }
+    }
+    
+    func createNearID(id bareId: String) {
+        let id = bareId.contains(".near") ? bareId : "\(bareId).near"
+        guard let uid = self.uid else { print("NO UID"); return }
+        guard let url = URL(string: "http://\(hostId):3000/api/accountCreate") else { print("NO URL"); return }
+        
+        let body: [String: AnyCodable] = [
+            "accountId" : AnyCodable(id),
+            "userID" : AnyCodable(uid)
+        ]
+        let jsonData = try? JSONEncoder().encode(body)
+        
+        DispatchQueue.main.async {
+            Task {
+                do {
+                    let result = try await RestHandler.asyncData(with: url, method: .post, body: jsonData)
+                    self.privateKey = JSON(result)["privateKey"].stringValue
+                    self.owner = id
+                } catch {
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    // TODO: Implement Account Lookup once endpoint is deployed
+    func lookupNearID(uid: String) {
+        if true {  // TODO: Implement condition to either sign up or get the account
+            self.uid = uid
+            self.isSigningUp = true
+        } else {
+            
         }
     }
     
@@ -71,10 +161,9 @@ class AuthViewModel: ObservableObject {
                     completion(logResult)
                 }
             }
-            
+
             guard let user = result?.user else { return }
-            
-            self.userSession = user
+            self.lookupNearID(uid: user.uid)
         }
     }
     
@@ -88,11 +177,14 @@ class AuthViewModel: ObservableObject {
     }
 
     func signout() {
-        self.userSession = nil
         try? Auth.auth().signOut()
+        self.nfts = []
+        self.owner = nil
+        self.privateKey = nil
     }
 
-    private func fetchNFTs() {
+    func fetchNFTs() {
+        self.nfts = []
         if let user = self.owner {
             let url = URL(string: "https://graph.mintbase.xyz/testnet")!
             let queryRequest = """

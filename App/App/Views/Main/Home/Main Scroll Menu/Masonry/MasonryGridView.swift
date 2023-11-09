@@ -11,14 +11,26 @@ import SwiftUIMasonry
 struct MasonryGridView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     
+    @State private var currentNFT: NonFungibleTokens? = nil
+    
     var body: some View {
         ScrollView(.vertical) {
             VMasonry(columns: 2) {
                 ForEach(authViewModel.nfts) { nft in
-                    MasonryCardView(nft: nft)
+                    Button {
+                        self.currentNFT = nft
+                    } label: {
+                        MasonryCardView(nft: nft)
+                    }
                 }
             }
             .padding(.bottom, 140)
+        }
+        .sheet(item: $currentNFT) { nftDetail in
+            NFTDetailView(nft: nftDetail)
+        }
+        .refreshable {
+            self.authViewModel.fetchNFTs()
         }
         .padding(.horizontal, 8)
     }

@@ -25,7 +25,3 @@ struct PlaylistCategoryView: View {
         .padding(.vertical, 0.25)
     }
 }
-
-//#Preview {
-//    PlaylistCategoryView(category: RizzOnboarding.discover[0])
-//}

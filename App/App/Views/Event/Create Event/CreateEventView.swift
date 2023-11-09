@@ -132,6 +132,8 @@ struct UploadAssetView: View {
     
     @StateObject private var viewModel: UploadAssetViewModel = UploadAssetViewModel()
     
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     var body: some View {
         ZStack {
             if let selectedImage = viewModel.selectedImage {
@@ -210,10 +212,10 @@ struct UploadAssetView: View {
             }
             .padding(.leading, 100)
             .sheet(isPresented: $isPresentingImagePicker) {
-                ImagePicker(sourceType: .photoLibrary, selectedImage: $viewModel.selectedImage)
+                ImagePicker(sourceType: .photoLibrary, selectedImage: $viewModel.selectedImage).onDisappear { authViewModel.selectedImage = viewModel.selectedImage }
             }
             .sheet(isPresented: $isPresentingCameraView) {
-                ImagePicker(sourceType: .camera, selectedImage: $viewModel.selectedImage)
+                ImagePicker(sourceType: .camera, selectedImage: $viewModel.selectedImage).onDisappear { authViewModel.selectedImage = viewModel.selectedImage }
             }
             .sheet(isPresented: $isPresentingAIGenerator) {
                 AIGeneratorView(returnedImage: $viewModel.selectedAIImage)
@@ -228,15 +230,19 @@ struct AIGeneratorView: View {
     
     @Binding var returnedImage: Image?
     
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     @Environment(\.presentationMode) var mode
     
     func generateImage() async throws {
         let openAI = OpenAI(Configuration(organizationId: "MarcoDotIO", apiKey: openAIKey))
         let imageParameters = ImageParameters(prompt: self.idea, numberofImages: 1, resolution: .large, responseFormat: .base64Json)
         let imageResponse = try await openAI.createImage(parameters: imageParameters)
-        self.image = Image(uiImage: try openAI.decodeBase64Image(imageResponse.data[0].image))
+        let uiImage = try openAI.decodeBase64Image(imageResponse.data[0].image)
+        authViewModel.selectedImage = uiImage
+        self.image = Image(uiImage: uiImage)
     }
-    
+
     var body: some View {
         ZStack {
             Rectangle()

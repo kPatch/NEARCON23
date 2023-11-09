@@ -25,9 +25,6 @@ struct BigCardGridView: View {
                 NFTDetailView(nft: nftDetail)
             }
         }
-        .refreshable {
-            self.authViewModel.fetchNFTs()
-        }
     }
 }
 #Preview {

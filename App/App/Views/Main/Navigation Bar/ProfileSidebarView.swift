@@ -8,10 +8,18 @@
 import SwiftUI
 
 struct ProfileSidebarView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     var body: some View {
-        Circle()
-            .frame(width: 50, height: 50)
-            .padding(.trailing)
+        HStack {
+            Text(viewModel.owner ?? "Unknown")
+                .bold()
+                .foregroundStyle(.rizzWhite)
+            
+            Circle()
+                .frame(width: 50, height: 50)
+                .padding(.trailing)
+        }
     }
 }
 
