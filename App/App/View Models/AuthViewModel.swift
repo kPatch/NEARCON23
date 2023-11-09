@@ -12,6 +12,7 @@ import Firebase
 import FirebaseAuth
 import GoogleSignIn
 import OpenAIKit
+import LocalAuthentication
 
 class AuthViewModel: ObservableObject {
     static let instance: AuthViewModel = AuthViewModel()
@@ -22,18 +23,27 @@ class AuthViewModel: ObservableObject {
     @Published var privateKey: String?
     @Published var owner: String?
     @Published var uid: String?
-    
+
     @Published var isSigningUp: Bool = false
     @Published var selectedImage: UIImage? = nil
-    
-    let hostId: String = "10.145.183.201"
 
-    private init() { }
-    
+    let hostId: String = "https://nearcon-23.vercel.app"
+
+    private init() { 
+        if let uuid = UIDevice.current.identifierForVendor?.uuidString {
+            if let data = KeychainHelper.loadBioProtected(key: uuid, prompt: "Access logged in NEAR Session") {
+                if let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
+                    self.privateKey = userInfo.privateKey
+                    self.owner = userInfo.owner
+                }
+            }
+        }
+    }
+
     func mintNFT(name: String, description: String) {
         guard let selectedImage = selectedImage else { print("NO PICS"); return }
         guard let id = self.owner, let privateKey = self.privateKey else { return }
-        guard let url = URL(string: "http://\(hostId):3000/api/accountCreate") else { print("NO URL"); return }  // TODO: Implement actual function
+        guard let url = URL(string: "\(hostId)/api/accountCreate") else { print("NO URL"); return }  // TODO: Implement actual function
         
         DispatchQueue.main.async {
             Task {
@@ -120,7 +130,7 @@ class AuthViewModel: ObservableObject {
     func createNearID(id bareId: String) {
         let id = bareId.contains(".near") ? bareId : "\(bareId).near"
         guard let uid = self.uid else { print("NO UID"); return }
-        guard let url = URL(string: "http://\(hostId):3000/api/accountCreate") else { print("NO URL"); return }
+        guard let url = URL(string: "\(hostId)/api/accountCreate") else { print("NO URL"); return }
         
         let body: [String: AnyCodable] = [
             "accountId" : AnyCodable(id),
@@ -134,6 +144,12 @@ class AuthViewModel: ObservableObject {
                     let result = try await RestHandler.asyncData(with: url, method: .post, body: jsonData)
                     self.privateKey = JSON(result)["privateKey"].stringValue
                     self.owner = id
+                    // KeychainHelper.createBioProtectedEntry(key: entryName, data: Data(entryContents.utf8))
+                    if let uuid = UIDevice.current.identifierForVendor?.uuidString {
+                        if let jsonData = try? JSONEncoder().encode(UserInfo(privateKey: JSON(result)["privateKey"].stringValue, owner: id)) {
+                            let _ = KeychainHelper.createBioProtectedEntry(key: uuid, data: jsonData)
+                        }
+                    }
                 } catch {
                     print(error)
                 }
@@ -241,8 +257,19 @@ query MyQuery {  mb_views_nft_tokens(\n where: {owner: {_eq: \"\(user)\"}}\n lim
                         }
                         self.playlist[nft.collectionName] = [nft]
                     }
+                    self.nfts.append(contentsOf: mockNFTs)
                 }
             }
         }
     }
+}
+
+class UserInfo: Codable {
+    init(privateKey: String, owner: String) {
+        self.privateKey = privateKey
+        self.owner = owner
+    }
+    
+    let privateKey: String
+    let owner: String
 }

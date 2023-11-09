@@ -10,7 +10,6 @@
 		7D01104C2AFD09040012357E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D01104B2AFD09040012357E /* GoogleService-Info.plist */; };
 		7D01104E2AFD0FED0012357E /* MintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D01104D2AFD0FED0012357E /* MintView.swift */; };
 		7D01106B2AFD18DC0012357E /* OpenAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7D01106A2AFD18DC0012357E /* OpenAIKit */; };
-		7D01106D2AFD1A010012357E /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D01106C2AFD1A010012357E /* APIKey.swift */; };
 		7D0110712AFD3F430012357E /* PinataFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D01106E2AFD3F420012357E /* PinataFormData.swift */; };
 		7D0110722AFD3F430012357E /* PinataFormDataValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D01106F2AFD3F430012357E /* PinataFormDataValue.swift */; };
 		7D0110732AFD3F430012357E /* PinataIPFSResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0110702AFD3F430012357E /* PinataIPFSResponse.swift */; };
@@ -81,12 +80,14 @@
 		7DB46A6C2AFC72E700822217 /* MultipeerNFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB46A6B2AFC72E700822217 /* MultipeerNFT.swift */; };
 		7DB46A6F2AFC76C800822217 /* NFTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB46A6E2AFC76C800822217 /* NFTType.swift */; };
 		7DB46A772AFC859D00822217 /* AnyCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 7DB46A762AFC859D00822217 /* AnyCodable */; };
+		7DCA26892AFD62DD006DFAA6 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA26882AFD62DD006DFAA6 /* APIKey.swift */; };
+		7DCA268C2AFD634C006DFAA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DCA268B2AFD634C006DFAA6 /* Preview Assets.xcassets */; };
+		7DCA268E2AFD65DF006DFAA6 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA268D2AFD65DF006DFAA6 /* KeychainHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7D01104B2AFD09040012357E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7D01104D2AFD0FED0012357E /* MintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MintView.swift; sourceTree = "<group>"; };
-		7D01106C2AFD1A010012357E /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		7D01106E2AFD3F420012357E /* PinataFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinataFormData.swift; sourceTree = "<group>"; };
 		7D01106F2AFD3F430012357E /* PinataFormDataValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinataFormDataValue.swift; sourceTree = "<group>"; };
 		7D0110702AFD3F430012357E /* PinataIPFSResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinataIPFSResponse.swift; sourceTree = "<group>"; };
@@ -150,6 +151,9 @@
 		7DB46A6B2AFC72E700822217 /* MultipeerNFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipeerNFT.swift; sourceTree = "<group>"; };
 		7DB46A6D2AFC731700822217 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7DB46A6E2AFC76C800822217 /* NFTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTType.swift; sourceTree = "<group>"; };
+		7DCA26882AFD62DD006DFAA6 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		7DCA268B2AFD634C006DFAA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7DCA268D2AFD65DF006DFAA6 /* KeychainHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,7 +212,7 @@
 				7D64AA472ABE900F00EBE52E /* Views */,
 				7D64AA392ABE7D1000EBE52E /* AppApp.swift */,
 				7D64AA3D2ABE7D1200EBE52E /* Assets.xcassets */,
-				7DB46A6A2AFC725C00822217 /* Preview Content */,
+				7DCA268A2AFD634C006DFAA6 /* Preview Content */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -228,6 +232,7 @@
 		7D64AA482ABE901500EBE52E /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				7DCA268D2AFD65DF006DFAA6 /* KeychainHelper.swift */,
 				7D5FC8A82ABFC51600BB2F2D /* MainARViewModel.swift */,
 				7D8DED0A2ABECC340094A71E /* AuthViewModel.swift */,
 				7D8DED722ABF8CDB0094A71E /* AppearenceViewModel.swift */,
@@ -409,7 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				7D8DED542ABF73660094A71E /* CreateEventView.swift */,
-				7D01106C2AFD1A010012357E /* APIKey.swift */,
+				7DCA26882AFD62DD006DFAA6 /* APIKey.swift */,
 			);
 			path = "Create Event";
 			sourceTree = "<group>";
@@ -462,13 +467,13 @@
 			path = Temporary;
 			sourceTree = "<group>";
 		};
-		7DB46A6A2AFC725C00822217 /* Preview Content */ = {
+		7DCA268A2AFD634C006DFAA6 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				7DCA268B2AFD634C006DFAA6 /* Preview Assets.xcassets */,
 			);
-			name = "Preview Content";
-			path = "App/Preview Content";
-			sourceTree = SOURCE_ROOT;
+			path = "Preview Content";
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -551,6 +556,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DCA268C2AFD634C006DFAA6 /* Preview Assets.xcassets in Resources */,
 				7DB46A642AFC719200822217 /* NEARCONLogo.usdz in Resources */,
 				7D01104C2AFD09040012357E /* GoogleService-Info.plist in Resources */,
 				7D64AA3E2ABE7D1200EBE52E /* Assets.xcassets in Resources */,
@@ -570,6 +576,7 @@
 				7DB46A6F2AFC76C800822217 /* NFTType.swift in Sources */,
 				7D8DED1F2ABF38400094A71E /* PlaylistCategoryView.swift in Sources */,
 				7DB46A662AFC71DC00822217 /* ImagePicker.swift in Sources */,
+				7DCA26892AFD62DD006DFAA6 /* APIKey.swift in Sources */,
 				7D64AA542ABE98DD00EBE52E /* FeatureItemCarouselView.swift in Sources */,
 				7D5FC8D52AC03FA800BB2F2D /* RestHandler.swift in Sources */,
 				7D8DED6E2ABF82F60094A71E /* ModelHelper.swift in Sources */,
@@ -612,9 +619,9 @@
 				7D8DED412ABF3FA10094A71E /* NFTDetailView.swift in Sources */,
 				7D8DED372ABF39670094A71E /* ProfileSidebarView.swift in Sources */,
 				7D8DED552ABF73660094A71E /* CreateEventView.swift in Sources */,
+				7DCA268E2AFD65DF006DFAA6 /* KeychainHelper.swift in Sources */,
 				7D8DED192ABF37F30094A71E /* TopListView.swift in Sources */,
 				7D8DED482ABF5AF50094A71E /* NFTTopDetailView.swift in Sources */,
-				7D01106D2AFD1A010012357E /* APIKey.swift in Sources */,
 				7D8DED332ABF393D0094A71E /* NFTCategoryView.swift in Sources */,
 				7D8DED172ABF37DE0094A71E /* MyNFTsView.swift in Sources */,
 				7D01104E2AFD0FED0012357E /* MintView.swift in Sources */,
@@ -763,6 +770,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera is needed for AR experience";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Accessing sample keychain entry";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This App uses Local Networks for multipeer sessions";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -795,6 +803,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera is needed for AR experience";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Accessing sample keychain entry";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This App uses Local Networks for multipeer sessions";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

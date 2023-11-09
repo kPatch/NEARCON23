@@ -17,11 +17,12 @@ struct NetworkView: View {
                 .foregroundStyle(RizzColors.rizzBlack)
             
             HStack {
-                Image(systemName: "circle.fill")
+                Image("NearIcon")
                     .resizable()
                     .scaledToFit()
                     .foregroundStyle(RizzColors.rizzWhite)
                     .frame(width: 30, height: 30)
+                    .clipShape(Circle())
                 
                 Text("\(viewModel.nfts.count) ")
                     .foregroundStyle(RizzColors.rizzWhite)

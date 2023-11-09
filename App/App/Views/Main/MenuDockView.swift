@@ -44,7 +44,7 @@ struct MenuDockView: View {
                             }
                         }
                         .padding(.leading, 12)
-                        .foregroundStyle(self.index == 0 ? RizzColors.rizzNeonBlue : RizzColors.rizzLightGray)
+                        .foregroundStyle(self.index == 0 ? RizzColors.rizzGreen : RizzColors.rizzLightGray)
                         
                         Button {
                             index = 1
@@ -61,7 +61,7 @@ struct MenuDockView: View {
                             }
                             .padding(.leading, 40)
                         }
-                        .foregroundStyle(self.index == 1 ? RizzColors.rizzNeonBlue : RizzColors.rizzLightGray)
+                        .foregroundStyle(self.index == 1 ? RizzColors.rizzGreen : RizzColors.rizzLightGray)
                     }
                     .padding(14)
                     .background {
@@ -102,6 +102,8 @@ struct ActionButtonView: View {
     @State private var createEventPressed: Bool = false
     @State private var displayARPressed: Bool = false
     
+    let size: CGFloat = 75
+    
     @EnvironmentObject var authVM: AuthViewModel
     
     var body: some View {
@@ -110,7 +112,10 @@ struct ActionButtonView: View {
                 Button {
                     mintNFTPressed.toggle()
                 } label: {
-                    SubActionButtonView(icon: "pickaxe", iconType: .asset)
+                    Image("NFTMintButton")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: size, height: size)
                 }
                     .offset(x: 0, y: -270)
                     .padding(.trailing)
@@ -126,7 +131,10 @@ struct ActionButtonView: View {
                 Button {
                     createEventPressed.toggle()
                 } label: {
-                    SubActionButtonView(icon: "ticket.fill", iconType: .sfSymbol)
+                    Image("EventButton")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: size, height: size)
                 }
                     .offset(x: 0, y: -185)
                     .padding(.trailing)
@@ -142,7 +150,10 @@ struct ActionButtonView: View {
                 Button {
                     displayARPressed.toggle()
                 } label: {
-                    SubActionButtonView(icon: "arkit", iconType: .sfSymbol)
+                    Image("ARButton")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: size, height: size)
                 }
                     .offset(x: 0, y: -100)
                     .padding(.trailing)

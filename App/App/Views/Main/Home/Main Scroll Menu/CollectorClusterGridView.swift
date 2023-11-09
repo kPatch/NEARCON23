@@ -51,9 +51,9 @@ struct CollectorClusterGridView: View {
                 }
             }
             .padding(.bottom, 140)
-        }
-        .sheet(item: $currentDetailNFT) { nftDetail in
-            NFTDetailView(nft: nftDetail)
+            .sheet(item: $currentDetailNFT) { nftDetail in
+                NFTDetailView(nft: nftDetail)
+            }
         }
         .refreshable {
             self.authViewModel.fetchNFTs()
@@ -61,7 +61,3 @@ struct CollectorClusterGridView: View {
         .padding(.horizontal, 44)
     }
 }
-//
-//#Preview {
-//    CollectorClusterGridView()
-//}
