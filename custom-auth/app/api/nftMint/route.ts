@@ -24,18 +24,23 @@ export async function POST(req: Request) {
         " TITLE: " + title + 
         " DESCRIPTION: " + description + 
         " IMAGE_URI: " + image_uri + 
-        "RECEIVER NFT: " + receiverNFT);
+        " PRIVATE KEY: " + privateKey +
+        " RECEIVER NFT: " + receiverNFT);
 
     const keyStore = new InMemoryKeyStore();
+
+    const keypair = KeyPair.fromString(privateKey)
 
     await keyStore.setKey(
         process.env.NEXT_PUBLIC_NETWORK_ID as string,
         accountId,
-        KeyPair.fromString(privateKey)
+        // "marcodotio.near",
+        keypair
     );
 
     const signerAccount = await connect(
         accountId,
+        // "marcodotio.near",
         keyStore,
         process.env.NEXT_PUBLIC_NETWORK_ID as string
     );
@@ -71,7 +76,8 @@ export async function POST(req: Request) {
     };
 
     const ipfsJson: any = await axios(config);
-    console.log(ipfsJson);
+    console.log("IPF ===================================");
+    console.log(ipfsJson.data);
     const args: object = {
         token_id: `${Date.now()}`,
         metadata: {
@@ -82,6 +88,8 @@ export async function POST(req: Request) {
         },
         receiver_id: receiverNFT
     }
+    console.log("/IPF ===================================");
+    
     console.log("ARGS: " + JSON.stringify(args));
 
     const action = actionCreators.functionCall(
@@ -91,38 +99,49 @@ export async function POST(req: Request) {
         new BN(deposit)
     );
 
-    console.log("SIGNING DELEGATE ...");
+    // console.log("SIGNING DELEGATE ...");
     const delegate = await signerAccount.signedDelegate({
         actions: [action],
         blockHeightTtl: 600,
-        receiverId: process.env.NEXT_PUBLIC_NETWORK_ID as string == "mainnet" ? process.env.GENADROP_MAINNET as string : process.env.GENADROP_TESTNET as string,
+        // receiverId: process.env.NEXT_PUBLIC_NETWORK_ID as string == "mainnet" ? process.env.GENADROP_MAINNET as string : process.env.GENADROP_TESTNET as string,
+        receiverId:  process.env.MINT_ADDRESS as string
     });
 
-    console.log("SUBMITTING Transactions ...");
-    try {
-        const result = await submitTransaction({
-            delegate: delegate,
-            network: process.env.NEXT_PUBLIC_NETWORK_ID as string,
-        });
-        return NextResponse.json(
-            { result },
-            {
-                status: 200,
-                headers: {
-                    'content-type': 'text/plain',
-                },
+    return NextResponse.json(
+        "TEST",
+        {
+            status: 200,
+            headers: {
+                'content-type': 'text/plain',
             },
-        );
-    } catch (error) {
-        console.log("ERROR SUBMITTING Transactions ... " + error);
-        return NextResponse.json(
-            { error },
-            {
-                status: 400,
-                headers: {
-                    'content-type': 'text/plain',
-                },
-            },
-        );
-    }
+        },
+    );
+
+    // console.log("SUBMITTING Transactions ...");
+    // try {
+    //     const result = await submitTransaction({
+    //         delegate: delegate,
+    //         network: process.env.NEXT_PUBLIC_NETWORK_ID as string,
+    //     });
+    //     return NextResponse.json(
+    //         { result },
+    //         {
+    //             status: 200,
+    //             headers: {
+    //                 'content-type': 'text/plain',
+    //             },
+    //         },
+    //     );
+    // } catch (error) {
+    //     console.log("ERROR SUBMITTING Transactions ... " + error);
+    //     return NextResponse.json(
+    //         { error },
+    //         {
+    //             status: 400,
+    //             headers: {
+    //                 'content-type': 'text/plain',
+    //             },
+    //         },
+    //     );
+    // }
 }
