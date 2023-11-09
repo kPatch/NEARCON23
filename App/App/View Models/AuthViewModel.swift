@@ -11,7 +11,6 @@ import SwiftyJSON
 import AnyCodable
 import Firebase
 import FirebaseAuth
-import FirebaseFirestoreSwift
 import GoogleSignIn
 
 class AuthViewModel: ObservableObject {
@@ -21,25 +20,16 @@ class AuthViewModel: ObservableObject {
     @Published var playlist: [String: [NonFungibleTokens]] = [:]
 
     @Published var userSession: FirebaseAuth.User?
-    @Published var currentUser: User?
+    @Published var owner: String?
     
     private var cancellables = Set<AnyCancellable>()
 
     private init() {
-        userSession = Auth.auth().currentUser
-        self.fetchUser()
+//        userSession = Auth.auth().currentUser
     }
 
     public func connectWallet() async throws {
         self.fetchNFTs()
-    }
-    
-    func fetchUser() {
-        guard let uid = userSession?.uid else { return }
-        COLLECTION_USERS.document(uid).getDocument { snapshot, _ in
-            guard let user = try? snapshot?.data(as: User.self) else { return }
-            self.currentUser = user
-        }
     }
     
     func signInWithGoogle() {
@@ -67,7 +57,6 @@ class AuthViewModel: ObservableObject {
                 guard let user = result?.user else { return }
 
                 self.userSession = user
-                self.fetchUser()
             }
         }
     }
@@ -86,7 +75,6 @@ class AuthViewModel: ObservableObject {
             guard let user = result?.user else { return }
             
             self.userSession = user
-            self.fetchUser()
         }
     }
     
@@ -105,10 +93,10 @@ class AuthViewModel: ObservableObject {
     }
 
     private func fetchNFTs() {
-        if let user = currentUser {
+        if let user = self.owner {
             let url = URL(string: "https://graph.mintbase.xyz/testnet")!
             let queryRequest = """
-query MyQuery {  mb_views_nft_tokens(\n where: {owner: {_eq: \"\(user.username)\"}}\n limit: 100\n order_by: {last_transfer_timestamp: desc}\n  ) {\n base_uri\n extra\n nft_contract_id\n nft_contract_name\n title\n description\n media\n last_transfer_receipt_id\n token_id\n nft_contract_icon\n }\n}\n
+query MyQuery {  mb_views_nft_tokens(\n where: {owner: {_eq: \"\(user)\"}}\n limit: 100\n order_by: {last_transfer_timestamp: desc}\n  ) {\n base_uri\n extra\n nft_contract_id\n nft_contract_name\n title\n description\n media\n last_transfer_receipt_id\n token_id\n nft_contract_icon\n }\n}\n
 """
             let body: [String: AnyCodable] = [
                 "query": AnyCodable(queryRequest),
@@ -164,23 +152,5 @@ query MyQuery {  mb_views_nft_tokens(\n where: {owner: {_eq: \"\(user.username)\
                 }
             }
         }
-    }
-}
-
-struct User: Identifiable, Decodable, Equatable {
-    @DocumentID var id: String?
-    
-    let username: String
-    let email: String
-    let walletAddress: String?
-    
-    var isCurrentUser: Bool { return AuthViewModel.instance.userSession?.uid == id}
-    
-    static func ==(lhs: User, rhs: User) -> Bool {
-        return lhs.id == rhs.id
-    }
-
-    static func !=(lhs: User, rhs: User) -> Bool {
-        return lhs.id != rhs.id
     }
 }
