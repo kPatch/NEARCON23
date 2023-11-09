@@ -15,33 +15,34 @@ struct RizzAppApp: App {
     @StateObject var authViewModel = AuthViewModel.instance
     @StateObject var appearenceViewModel = AppearenceViewModel.instance
     
-    init() {
-        FirebaseApp.configure()
-    }
+//    init() {
+//        FirebaseApp.configure()
+//    }
     
     var body: some Scene {
         WindowGroup {
-            if self.isOnSplashscreen {
-                SplashScreenView()
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            withAnimation {
-                                self.isOnSplashscreen = false
-                            }
-                        }
-                    }
-            } else {
-                if authViewModel.userSession != nil, let _ = authViewModel.currentUser {
-                    NavigationStack {
-                        AppTabView()
-                            .environmentObject(self.authViewModel)
-                            .environmentObject(self.appearenceViewModel)
-                    }
-                } else {
-                    PreviewFeaturesView()
-                        .environmentObject(self.authViewModel)
-                }
-            }
+            MintView()
+//            if self.isOnSplashscreen {
+//                SplashScreenView()
+//                    .onAppear {
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                            withAnimation {
+//                                self.isOnSplashscreen = false
+//                            }
+//                        }
+//                    }
+//            } else {
+//                if authViewModel.userSession != nil {
+//                    NavigationStack {
+//                        AppTabView()
+//                            .environmentObject(self.authViewModel)
+//                            .environmentObject(self.appearenceViewModel)
+//                    }
+//                } else {
+//                    PreviewFeaturesView()
+//                        .environmentObject(self.authViewModel)
+//                }
+//            }
         }
     }
 }

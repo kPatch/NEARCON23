@@ -154,6 +154,15 @@
       }
     },
     {
+      "identity" : "openaikit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MarcoDotIO/OpenAIKit",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2af189dd9910af1264cd6960fac3230b2d6661c0"
+      }
+    },
+    {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",

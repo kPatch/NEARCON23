@@ -9,6 +9,7 @@ import SwiftUI
 import Camera_SwiftUI
 import Combine
 import AVFoundation
+import OpenAIKit
 
 struct CreateEventView: View {
     @State private var name: String = ""
@@ -121,31 +122,13 @@ struct InputFieldView: View {
 
 class UploadAssetViewModel: ObservableObject {
     @Published var selectedImage: UIImage? = nil
-    
-    private let service = CameraService()
-    
-    private var subscriptions = Set<AnyCancellable>()
-    
-    init() {
-        subscribeToCameraServices()
-    }
-    
-    private func subscribeToCameraServices() {
-        service.$photo.sink { [weak self] (photo) in
-            guard
-                let pic = photo,
-                let self = self
-            else { return }
-            
-            self.selectedImage = pic.image
-        }
-        .store(in: &self.subscriptions)
-    }
+    @Published var selectedAIImage: Image? = nil
 }
 
 struct UploadAssetView: View {
     @State private var isPresentingImagePicker: Bool = false
     @State private var isPresentingCameraView: Bool = false
+    @State private var isPresentingAIGenerator: Bool = false
     
     @StateObject private var viewModel: UploadAssetViewModel = UploadAssetViewModel()
     
@@ -153,82 +136,209 @@ struct UploadAssetView: View {
         ZStack {
             if let selectedImage = viewModel.selectedImage {
                 Image(uiImage: selectedImage)
+                    .resizable()
+                    .scaledToFit()
                     .frame(width: UIScreen.main.bounds.width - 50, height: UIScreen.main.bounds.width - 50)
                     .clipShape(RoundedRectangle(cornerRadius: 12.0))
+            } else if let selectedImage = viewModel.selectedAIImage {
+                selectedImage
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.width - 50, height: UIScreen.main.bounds.width - 50)
+                    .clipShape(RoundedRectangle(cornerRadius: 12.0))
+            } else {
+                RoundedRectangle(cornerRadius: 12.0)
+                    .frame(width: UIScreen.main.bounds.width - 50, height: UIScreen.main.bounds.width - 50)
+                    .foregroundStyle(RizzColors.rizzGray)
             }
-            
-            RoundedRectangle(cornerRadius: 12.0)
-                .frame(width: UIScreen.main.bounds.width - 50, height: UIScreen.main.bounds.width - 50)
-                .foregroundStyle(RizzColors.rizzGray)
+
+            VStack(spacing: 10) {
+                HStack {
+                    Button {
+                        isPresentingImagePicker.toggle()
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 18.0)
+                                .frame(width: 60, height: 60)
+                                .foregroundStyle(RizzColors.rizzLightGray)
+                            
+                            Image(systemName: "photo.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundStyle(RizzColors.rizzWhite)
+                        }
+                    }
+                    
+                    Button {
+                        isPresentingCameraView.toggle()
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 18.0)
+                                .frame(width: 60, height: 60)
+                                .foregroundStyle(RizzColors.rizzLightGray)
+                            
+                            Image(systemName: "camera.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundStyle(RizzColors.rizzWhite)
+                        }
+                    }
+                    
+                    Button {
+                        self.isPresentingAIGenerator = true
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 18.0)
+                                .frame(width: 60, height: 60)
+                                .foregroundStyle(RizzColors.rizzLightGray)
+                            
+                            Image(systemName: "cpu")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundStyle(RizzColors.rizzWhite)
+                        }
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.top, 20)
+                
+                Spacer()
+            }
+            .padding(.leading, 100)
+            .sheet(isPresented: $isPresentingImagePicker) {
+                ImagePicker(sourceType: .photoLibrary, selectedImage: $viewModel.selectedImage)
+            }
+            .sheet(isPresented: $isPresentingCameraView) {
+                ImagePicker(sourceType: .camera, selectedImage: $viewModel.selectedImage)
+            }
+            .sheet(isPresented: $isPresentingAIGenerator) {
+                AIGeneratorView(returnedImage: $viewModel.selectedAIImage)
+            }
+        }
+    }
+}
+
+struct AIGeneratorView: View {
+    @State private var idea: String = ""
+    @State private var image: Image? = nil
+    
+    @Binding var returnedImage: Image?
+    
+    @Environment(\.presentationMode) var mode
+    
+    func generateImage() async throws {
+        let openAI = OpenAI(Configuration(organizationId: "MarcoDotIO", apiKey: openAIKey))
+        let imageParameters = ImageParameters(prompt: self.idea, numberofImages: 1, resolution: .large, responseFormat: .base64Json)
+        let imageResponse = try await openAI.createImage(parameters: imageParameters)
+        self.image = Image(uiImage: try openAI.decodeBase64Image(imageResponse.data[0].image))
+    }
+    
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .foregroundStyle(RizzColors.rizzMatteBlack)
+                .ignoresSafeArea()
             
             VStack {
-                Button {
-                    isPresentingImagePicker.toggle()
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 18.0)
-                            .frame(width: 60, height: 60)
-                            .foregroundStyle(RizzColors.rizzLightGray)
-                        
-                        Image(systemName: "photo.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(RizzColors.rizzWhite)
-                    }
-                }
-                
-                Text("Upload Image, Video, Audio, or GIF")
-                    .foregroundStyle(RizzColors.rizzWhite)
-                    .font(.system(size: 16))
-                    .bold()
-                
-                Text("File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, and OGG. Max size: 50 MB")
-                    .foregroundStyle(RizzColors.rizzWhite)
-                    .font(.footnote)
-                    .padding(.horizontal, 90)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, 28)
+                ExtendedFieldView(text: $idea, name: "Image Idea")
                 
                 Button {
-                    isPresentingCameraView.toggle()
+                    Task {
+                        do {
+                            try await self.generateImage()
+                        } catch {
+                            print(error)
+                        }
+                    }
                 } label: {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 18.0)
-                            .frame(width: 60, height: 60)
-                            .foregroundStyle(RizzColors.rizzLightGray)
-                        
-                        Image(systemName: "camera.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(RizzColors.rizzWhite)
+                        VStack {
+                            Spacer()
+                            
+                            Capsule()
+                                .foregroundStyle(RizzColors.rizzMatteBlack)
+                                .frame(width: UIScreen.main.bounds.width - 60, height: 50)
+                                .overlay {
+                                    Capsule()
+                                        .stroke(RizzColors.rizzWhite, lineWidth: 5)
+                                }
+                        }
+                        VStack {
+                            Spacer()
+                            
+                            Text("Generate Image")
+                                .foregroundStyle(RizzColors.rizzWhite)
+                                .font(.title)
+                                .bold()
+                                .padding(.bottom, 6)
+                        }
                     }
+                    .padding(.top)
                 }
                 
-                Text("Use your camera")
-                    .foregroundStyle(RizzColors.rizzWhite)
-                    .font(.system(size: 16))
-                    .bold()
-                
-                Text("Use RIZZ AR Features to create outsanding content!")
-                    .foregroundStyle(RizzColors.rizzWhite)
-                    .font(.footnote)
-                    .padding(.horizontal, 90)
-                    .multilineTextAlignment(.center)
+                if let image {
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: UIScreen.main.bounds.width - 50, height: UIScreen.main.bounds.width - 50)
+                        .clipShape(RoundedRectangle(cornerRadius: 12.0))
+                    
+                    Button {
+                        self.returnedImage = self.image
+                        mode.wrappedValue.dismiss()
+                    } label: {
+                        ZStack {
+                            VStack {
+                                Spacer()
+                                
+                                Capsule()
+                                    .foregroundStyle(RizzColors.rizzMatteBlack)
+                                    .frame(width: UIScreen.main.bounds.width - 60, height: 50)
+                                    .overlay {
+                                        Capsule()
+                                            .stroke(RizzColors.rizzWhite, lineWidth: 5)
+                                    }
+                            }
+                            VStack {
+                                Spacer()
+                                
+                                Text("Submit Image")
+                                    .foregroundStyle(RizzColors.rizzWhite)
+                                    .font(.title)
+                                    .bold()
+                                    .padding(.bottom, 6)
+                            }
+                        }
+                        .padding(.top)
+                    }
+                    
+                    Button {
+                        Task {
+                            do {
+                                try await self.generateImage()
+                            } catch {
+                                print(error)
+                            }
+                        }
+                    } label: {
+                        Text("Regenerate")
+                            .foregroundStyle(RizzColors.rizzWhite)
+                            .font(.title3)
+                            .bold()
+                            .padding(.bottom, 6)
+                    }
+                }
             }
-        }
-        .sheet(isPresented: $isPresentingImagePicker) {
-            ImagePicker(image: $viewModel.selectedImage)
-        }
-        .sheet(isPresented: $isPresentingCameraView) {
-            CameraView()
         }
     }
 }
 
 final class CameraModel: ObservableObject {
-    private let service = CameraService()
+    let service = CameraService()
     
     @Published var photo: Photo!
     
