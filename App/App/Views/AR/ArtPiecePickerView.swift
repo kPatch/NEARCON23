@@ -38,6 +38,7 @@ struct ArtPiecePickerView: View {
                                 ModelHelper.modelEntity(imageUrl: nft.imageURL) { entity in
                                     self.arViewModel.selectedPiece = entity
                                 }
+                                self.arViewModel.imageForNFTPlacement = nft.imageURL
                                 self.arViewModel.isShowingAdder = true
                             } label: {
                                 ArtPiecePickerItemView(nft: nft.imageURL)

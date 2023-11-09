@@ -37,7 +37,7 @@ class MainARViewModel: ObservableObject {
     @Published var isPlacementEnabled = false
     @Published var isCollaborationEnabled = false
     @Published var currentCollabSetting = false
-    @Published var location: CGPoint?
+    @Published var imageForNFTPlacement: String? = nil
 
     @Published var isShowingUploadSnapshotOverlay = false
 

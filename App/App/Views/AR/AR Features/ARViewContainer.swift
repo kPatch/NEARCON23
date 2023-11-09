@@ -2,6 +2,7 @@ import RealityKit
 import ARKit
 import SwiftUI
 import Combine
+import simd
 
 struct ARViewContainer: UIViewRepresentable {
     @EnvironmentObject var arViewModel: MainARViewModel
@@ -23,8 +24,14 @@ struct ARViewContainer: UIViewRepresentable {
             }
 
             if let nft = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MultipeerNFT.self, from: receivedData) {
-                print("RECEIVER: \(nft.model)")
                 self.placeModel(transform: nft.transform.matrix, uiView: uiView, model: nft.model)
+            }
+
+            if let regularNFT = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MultipeerRegularNFT.self, from: receivedData) {
+                ModelHelper.modelEntity(imageUrl: regularNFT.image) { entity in
+                    guard let modelEntity = entity else { return }
+                    self.placeModel(transform: regularNFT.transform.matrix, uiView: uiView, modelEntity: modelEntity)
+                }
             }
 
             DispatchQueue.main.async {
@@ -33,11 +40,7 @@ struct ARViewContainer: UIViewRepresentable {
             }
         }
 
-        if let location = self.arViewModel.location {
-            guard let hitTestResult = uiView.hitTest(location, types: [.existingPlaneUsingGeometry, .estimatedHorizontalPlane, .estimatedVerticalPlane]).first else {
-                return
-            }
-
+        if let modelEntity = arViewModel.modelConfirmedForPlacement, let image = arViewModel.imageForNFTPlacement {
             uiView.session.getCurrentWorldMap { worldMap, _ in
                 guard let map = worldMap else { return }
 
@@ -48,25 +51,49 @@ struct ARViewContainer: UIViewRepresentable {
                 self.multipeerSession.sendToAllPeers(data)
             }
             
+            let anchorEntity = AnchorEntity(plane: .any)
+            anchorEntity.addChild(modelEntity)
+            uiView.scene.addAnchor(anchorEntity)
+            
+            let matrix = anchorEntity.transformMatrix(relativeTo: modelEntity)
+            
+            guard let data = try? NSKeyedArchiver.archivedData(withRootObject: MultipeerRegularNFT(transform: SIMD_float4x4_Wrapper(matrix: matrix), image: image), requiringSecureCoding: true) else {
+                fatalError("can't encode anchor")
+            }
+            self.multipeerSession.sendToAllPeers(data)
+        }
+
+        if let nft = arViewModel.nftConfirmedForPlacement {
+            uiView.session.getCurrentWorldMap { worldMap, _ in
+                guard let map = worldMap else { return }
+
+                guard let data = try? NSKeyedArchiver.archivedData(withRootObject: map, requiringSecureCoding: true) else {
+                    fatalError("can't encode anchor")
+                }
+
+                self.multipeerSession.sendToAllPeers(data)
+            }
+            
+            let anchor = AnchorEntity(plane: .any)
+            
             DispatchQueue.main.async {
                 Task {
-                    let urlLink = "https://ipfs.io/ipfs/QmYW6WL7Pcq2jHVn8UNBAMk2CtFexb8mBaxqcmZsV3CBMZ"
-                    guard let model = await self.downloadModel(model: urlLink) else { return }
-                    self.placeModel(transform: hitTestResult.worldTransform, uiView: uiView, model: model)
-                    print("SENDER: \(model)")
-
-                    guard let data = try? NSKeyedArchiver.archivedData(withRootObject: MultipeerNFT(transform: SIMD_float4x4_Wrapper(matrix: hitTestResult.worldTransform), model: model), requiringSecureCoding: true) else {
-                        fatalError("can't encode anchor")
+//                    let urlLink = "https://ipfs.io/ipfs/QmYW6WL7Pcq2jHVn8UNBAMk2CtFexb8mBaxqcmZsV3CBMZ"
+                    guard let model = await self.downloadModel(model: nft.asset) else { return }
+                    self.placeModel(anchorEntity: anchor, uiView: uiView, data: model) { matrix in
+                        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: MultipeerNFT(transform: SIMD_float4x4_Wrapper(matrix: matrix), model: model), requiringSecureCoding: true) else {
+                            fatalError("can't encode anchor")
+                        }
+                        self.multipeerSession.sendToAllPeers(data)
                     }
-                    self.multipeerSession.sendToAllPeers(data)
                 }
-                
-                self.arViewModel.location = nil
+
+                self.arViewModel.nftConfirmedForPlacement = nil
             }
         }
         #endif
     }
-    
+
     func downloadModel(model: String) async -> Data? {
         if let url = URL(string: model) {
             return await withCheckedContinuation { con in
@@ -82,7 +109,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         return nil
     }
-    
+
     func placeModel(transform: simd_float4x4, uiView: ARView, model: Data) {
         let anchorEntity = AnchorEntity(world: transform)
         let tempDirectoryURL = FileManager.default.temporaryDirectory
@@ -96,9 +123,6 @@ struct ARViewContainer: UIViewRepresentable {
             // Apply a scale transformation to make the logo 5 times smaller
             let scale: Float = 1.0 / 400.0 // Adjust this value as necessary
             modelEntity.scale = SIMD3<Float>(scale, scale, scale)
-
-            // Add the AnchorEntity to the ARView's scene
-            uiView.scene.addAnchor(anchorEntity)
             
             anchorEntity.addChild(modelEntity)
             uiView.scene.addAnchor(anchorEntity)
@@ -106,14 +130,21 @@ struct ARViewContainer: UIViewRepresentable {
             print(error)
         }
     }
-
-    func placeModel(transform: simd_float4x4, uiView: ARView, model: String) {
+    
+    func placeModel(transform: simd_float4x4, uiView: ARView, modelEntity: ModelEntity) {
         let anchorEntity = AnchorEntity(world: transform)
+        
+        // Apply a scale transformation to make the logo 5 times smaller
+        let scale: Float = 1.0 / 400.0 // Adjust this value as necessary
+        modelEntity.scale = SIMD3<Float>(scale, scale, scale)
+        
+        anchorEntity.addChild(modelEntity)
+        uiView.scene.addAnchor(anchorEntity)
+    }
 
+    func placeModel(anchorEntity: AnchorEntity, uiView: ARView, data: Data, closure: @escaping (simd_float4x4) -> Void) {
         DispatchQueue.main.async {
             Task {
-                guard let data: Data = await self.downloadModel(model: model)  else { return }
-                
                 let tempDirectoryURL = FileManager.default.temporaryDirectory
                 let usdzFileURL = tempDirectoryURL.appendingPathComponent(UUID().uuidString).appendingPathExtension("usdz")
                 
@@ -125,12 +156,11 @@ struct ARViewContainer: UIViewRepresentable {
                     // Apply a scale transformation to make the logo 5 times smaller
                     let scale: Float = 1.0 / 400.0 // Adjust this value as necessary
                     modelEntity.scale = SIMD3<Float>(scale, scale, scale)
-
-                    // Add the AnchorEntity to the ARView's scene
-                    uiView.scene.addAnchor(anchorEntity)
                     
                     anchorEntity.addChild(modelEntity)
                     uiView.scene.addAnchor(anchorEntity)
+                    
+                    closure(anchorEntity.transformMatrix(relativeTo: modelEntity))
                 } catch {
                     print(error)
                 }

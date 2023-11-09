@@ -25,7 +25,7 @@ struct FeatureItemView: View {
                     .foregroundStyle(RizzColors.rizzWhite)
                     .font(.title)
                     .bold()
-                    .padding(.top, 380)
+                    .padding(.top, feature.title == "Web3 at its core" ? 408 : 380)
                 
                 Text(feature.description)
                     .foregroundStyle(RizzColors.rizzWhite)

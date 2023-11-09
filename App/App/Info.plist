@@ -6,5 +6,10 @@
 	<array>
 		<string>_ar-multi-sample._tcp</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Roboto/Roboto-Bold.ttf</string>
+		<string>Roboto/Roboto-Black.ttf</string>
+	</array>
 </dict>
 </plist>
