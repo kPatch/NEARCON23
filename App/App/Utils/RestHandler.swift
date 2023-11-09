@@ -1,6 +1,4 @@
 import Foundation
-import Apollo
-import ApolloAPI
 
 final class RestHandler {
     /// Shared Singleton object for use within the OpenAIKit API Module
@@ -71,21 +69,6 @@ final class RestHandler {
         }
 
         return try await self.asyncData(with: request)
-    }
-    
-    public static func ApolloHander<Q: GraphQLQuery>(with apolloClient: ApolloClient, using query: Q) async throws -> Q.Data {
-        try await withCheckedThrowingContinuation { (con: CheckedContinuation<Q.Data, Error>) in
-            apolloClient.fetch(query: query) { result in
-                switch result {
-                case .success(let graphQLResult):
-                    if let data = graphQLResult.data {
-                        con.resume(returning: data)
-                    }
-                case .failure(let error):
-                    con.resume(throwing: error)
-                }
-            }
-        }
     }
 
     /// An Async Await wrapper for the older `dataTask` handler.

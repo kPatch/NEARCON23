@@ -23,7 +23,6 @@ struct ARViewContainer: UIViewRepresentable {
             }
 
             if let nft = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MultipeerNFT.self, from: receivedData) {
-                print("RECEIVER: \(nft.model)")
                 self.placeModel(transform: nft.transform.matrix, uiView: uiView, model: nft.model)
             }
 
@@ -53,7 +52,6 @@ struct ARViewContainer: UIViewRepresentable {
                     let urlLink = "https://ipfs.io/ipfs/QmYW6WL7Pcq2jHVn8UNBAMk2CtFexb8mBaxqcmZsV3CBMZ"
                     guard let model = await self.downloadModel(model: urlLink) else { return }
                     self.placeModel(transform: hitTestResult.worldTransform, uiView: uiView, model: model)
-                    print("SENDER: \(model)")
 
                     guard let data = try? NSKeyedArchiver.archivedData(withRootObject: MultipeerNFT(transform: SIMD_float4x4_Wrapper(matrix: hitTestResult.worldTransform), model: model), requiringSecureCoding: true) else {
                         fatalError("can't encode anchor")

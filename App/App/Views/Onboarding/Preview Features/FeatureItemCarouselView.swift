@@ -19,17 +19,17 @@ struct FeatureItemCarouselView: View {
                     RoundedRectangle(cornerRadius: 12.0)
                         .ignoresSafeArea()
                         .padding(.top, 10)
-                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 3)
+                        .frame(width: UIScreen.main.bounds.width, height: ((UIScreen.main.bounds.height / 3) + 10) * (index < 3 ? 1 : 2))
                         .foregroundStyle(RizzColors.rizzGray)
                 }
             }
             
-            TabView(selection: $index) {
+            TabView(selection: $index.animation()) {
                 ForEach(0..<4, id:\.self) { index in
                     if index < 3 {
                         FeatureItemView(feature: RizzOnboarding.features[index])
                     } else {
-                        ConnectWalletFeatureView(feature: RizzOnboarding.features[index])
+                        LoginView(feature: RizzOnboarding.features[index])
                     }
                 }
             }

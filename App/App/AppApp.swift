@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct RizzAppApp: App {
@@ -13,6 +14,10 @@ struct RizzAppApp: App {
     
     @StateObject var authViewModel = AuthViewModel.instance
     @StateObject var appearenceViewModel = AppearenceViewModel.instance
+    
+//    init() {
+//        FirebaseApp.configure()
+//    }
     
     var body: some Scene {
         WindowGroup {
@@ -26,7 +31,7 @@ struct RizzAppApp: App {
                         }
                     }
             } else {
-                if self.authViewModel.owner != nil {
+                if authViewModel.userSession != nil, let _ = authViewModel.currentUser {
                     NavigationStack {
                         AppTabView()
                             .environmentObject(self.authViewModel)
