@@ -4,7 +4,8 @@ import { InMemoryKeyStore } from "@near-js/keystores";
 import { actionCreators } from "@near-js/transactions";
 import axios from "axios";
 import BN from "bn.js";
-import { connect, submitTransaction } from "@/utils/meta-transactions";
+import { connect, submitTransaction } from "../../../utils/meta-transactions";
+
 
 export async function POST(req: Request) {
     const body = await req.json();

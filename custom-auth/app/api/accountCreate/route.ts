@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { KeyPair } from '@near-js/crypto';
-import { submitTransaction, connect } from '@/utils/meta-transactions';
+import { submitTransaction, connect } from '../../../utils/meta-transactions';
 import { InMemoryKeyStore } from '@near-js/keystores';
 import { actionCreators } from "@near-js/transactions";
 import BN from "bn.js";
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     console.log("SETTING KEYSTORE ....");
     const keyStore = new InMemoryKeyStore();
     // const { seedPhrase, publicKey, secretKey } = generateSeedPhrase()
-    
+
     const marcodotioPk = process.env.MARCODOTIO_PRIVATE_KEY_NEAR_MAINNET as string;
 
     await keyStore.setKey(
