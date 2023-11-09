@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { KeyPair } from '@near-js/crypto';
-import { submitTransaction, connect } from '../../../utils/meta-transactions';
+import { submitTransaction, connect } from '@/utils/meta-transactions';
 import { InMemoryKeyStore } from '@near-js/keystores';
 import { actionCreators } from "@near-js/transactions";
 import BN from "bn.js";
@@ -18,6 +18,8 @@ export async function POST(req: Request) {
      * userID -- the unique GoogleAuth id retrieved after signing in
      */
     const { accountId, userID } = body;
+    console.log("ACCOUNT ID: " + accountId);
+    console.log("USER ID: " + userID);
 
     /////////////////////////////////////////////////////////////////
     // STEP 1: Take the user ID, hash it and use it as randomness
@@ -50,11 +52,13 @@ export async function POST(req: Request) {
     console.log("SETTING KEYSTORE ....");
     const keyStore = new InMemoryKeyStore();
     // const { seedPhrase, publicKey, secretKey } = generateSeedPhrase()
+    
+    const marcodotioPk = process.env.MARCODOTIO_PRIVATE_KEY_NEAR_MAINNET as string;
 
     await keyStore.setKey(
         process.env.NEXT_PUBLIC_NETWORK_ID as string,
         "marcodotio.near",
-        KeyPair.fromString("ADD_PRIVATE_KEY")
+        KeyPair.fromString(marcodotioPk)
     );
 
     /////////////////////////////////////////////////////////////////
@@ -103,7 +107,8 @@ export async function POST(req: Request) {
         console.log("TRANSACTION SUBMITTED ....");
 
         return NextResponse.json(
-            { privateKey: secretKey, result },
+            // { privateKey: secretKey, result },
+            { privateKey: privKeyStr, result },
             {
                 status: 200,
                 headers: {
