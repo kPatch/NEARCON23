@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     console.log(`DEBUG: CONNECT RESULT - ${signerAccount}`);
 
     const gas = "300000000000000";
-    const deposit = "10000000000000000000000";
+    const deposit = "20000000000000000000000";
 
     const data = JSON.stringify({
         "name": title,
