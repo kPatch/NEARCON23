@@ -57,7 +57,7 @@ struct LoginView: View {
                                 .bold()
                                 .background {
                                     Capsule()
-                                        .foregroundStyle(RizzColors.rizzWhite)
+                                        .foregroundStyle(RizzColors.rizzMatteBlack)
                                         .frame(width: UIScreen.main.bounds.width - 60, height: 50)
                                         .overlay {
                                             Capsule()
@@ -75,7 +75,7 @@ struct LoginView: View {
                                 .bold()
                                 .background {
                                     Capsule()
-                                        .foregroundStyle(RizzColors.rizzWhite)
+                                        .foregroundStyle(RizzColors.rizzMatteBlack)
                                         .frame(width: UIScreen.main.bounds.width - 60, height: 50)
                                         .overlay {
                                             Capsule()
@@ -141,7 +141,7 @@ struct CreateNearIDView: View {
                 .ignoresSafeArea()
             
             VStack {
-                Text("Welcome to !")
+                Text("Welcome to PicAppear!")
                     .bold()
                     .font(.title)
                     .foregroundStyle(.green)
@@ -151,19 +151,19 @@ struct CreateNearIDView: View {
                 
                 Button {
                     self.hasSubmitted = true
-                    viewModel.createNearID(id: self.nearId)
+                    viewModel.createNearID(id: self.nearId.lowercased())
                 } label: {
-                    Text("LFG")
-                        .foregroundStyle(RizzColors.rizzBlue)
+                    Text("Create Account")
+                        .foregroundStyle(RizzColors.rizzGreen)
                         .font(.title2)
                         .bold()
                         .background {
                             Capsule()
-                                .foregroundStyle(RizzColors.rizzWhite)
+                                .foregroundStyle(RizzColors.rizzMatteBlack)
                                 .frame(width: UIScreen.main.bounds.width - 60, height: 50)
                                 .overlay {
                                     Capsule()
-                                        .stroke(RizzColors.rizzBlue, lineWidth: 5)
+                                        .stroke(RizzColors.rizzGreen, lineWidth: 5)
                                 }
                         }
                 }

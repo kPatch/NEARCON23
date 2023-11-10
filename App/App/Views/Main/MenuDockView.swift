@@ -122,11 +122,11 @@ struct ActionButtonView: View {
                 
                 NavigationLink(
                     isActive: $mintNFTPressed,
-                    destination: { MintView() }, 
+                    destination: { MintView().environmentObject(authVM) },
                     label: { }
                 )
             }
-            
+
             if hasCreateEventButton {
                 Button {
                     createEventPressed.toggle()
@@ -141,7 +141,7 @@ struct ActionButtonView: View {
                 
                 NavigationLink(
                     isActive: $createEventPressed,
-                    destination: { CreateEventView() },
+                    destination: { CreateEventView().environmentObject(authVM) },
                     label: { }
                 )
             }

@@ -26,28 +26,56 @@ class AuthViewModel: ObservableObject {
 
     @Published var isSigningUp: Bool = false
     @Published var selectedImage: UIImage? = nil
+    @Published var amount: Double = 0.0
 
     let hostId: String = "https://nearcon-23.vercel.app"
 
-    private init() { 
+    private init() {
         if let uuid = UIDevice.current.identifierForVendor?.uuidString {
             if let data = KeychainHelper.loadBioProtected(key: uuid, prompt: "Access logged in NEAR Session") {
                 if let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
                     self.privateKey = userInfo.privateKey
                     self.owner = userInfo.owner
+                    
+                    DispatchQueue.main.async {
+                        Task {
+                            do {
+                                self.amount = try await self.fetchAccountBalance()
+                            } catch {
+                                print(error)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    func mintNFT(name: String, description: String) {
-        guard let selectedImage = selectedImage else { print("NO PICS"); return }
-        guard let id = self.owner, let privateKey = self.privateKey else { return }
-        guard let url = URL(string: "\(hostId)/api/accountCreate") else { print("NO URL"); return }  // TODO: Implement actual function
-        
+    func fetchAccountBalance() async throws -> Double {
+        let url = URL(string: "https://rpc.mainnet.near.org")!
+        let data = try await JsonRpcClient.sendJsonRpc(
+            url,
+            Request(
+                "query",
+                [
+                    "request_type": AnyCodable("view_account"),
+                    "finality": AnyCodable("final"),
+                    "account_id": AnyCodable(self.owner!)
+                ]
+            )
+        )
+        let value = JSON(data)["result"]
+        return (value["amount"].doubleValue / Double(100000000000000000000000))
+    }
+
+    func mintNFT(name: String, description: String) -> Bool {
+        guard let selectedImage = selectedImage else { return false }
+        guard let id = self.owner, let privateKey = self.privateKey else { return false }
+        guard let url = URL(string: "\(hostId)/api/nftMint") else { return false }
+
         DispatchQueue.main.async {
             Task {
-                guard let image = try await self.uploadScreenshot(image: selectedImage) else { print("NO UPLOAD"); return }
+                guard let image = try await self.uploadScreenshot(image: selectedImage) else { return false }
 
                 let body: [String: AnyCodable] = [
                     "accountId" : AnyCodable(id),
@@ -55,13 +83,17 @@ class AuthViewModel: ObservableObject {
                     "description": AnyCodable(description),
                     "image_uri": AnyCodable(image),
                     "privateKey": AnyCodable(privateKey),
-                    "receiverNFT": AnyCodable("INSERT CONTRACT HERE") // TODO: Put the contract ID here
+                    "receiverNFT": AnyCodable(id)
                 ]
                 let jsonData = try? JSONEncoder().encode(body)
 
-                let _ = try await RestHandler.asyncData(with: url, method: .post, body: jsonData)  // TODO: Figure out how to handle return values
+                let _ = try await RestHandler.asyncData(with: url, method: .post, body: jsonData)
+                
+                return true
             }
         }
+
+        return true
     }
     
     @MainActor
@@ -144,19 +176,19 @@ class AuthViewModel: ObservableObject {
                     let result = try await RestHandler.asyncData(with: url, method: .post, body: jsonData)
                     self.privateKey = JSON(result)["privateKey"].stringValue
                     self.owner = id
-                    // KeychainHelper.createBioProtectedEntry(key: entryName, data: Data(entryContents.utf8))
                     if let uuid = UIDevice.current.identifierForVendor?.uuidString {
                         if let jsonData = try? JSONEncoder().encode(UserInfo(privateKey: JSON(result)["privateKey"].stringValue, owner: id)) {
                             let _ = KeychainHelper.createBioProtectedEntry(key: uuid, data: jsonData)
                         }
                     }
+                    self.amount = try await self.fetchAccountBalance()
                 } catch {
                     print(error)
                 }
             }
         }
     }
-    
+
     // TODO: Implement Account Lookup once endpoint is deployed
     func lookupNearID(uid: String) {
         if true {  // TODO: Implement condition to either sign up or get the account
@@ -166,7 +198,7 @@ class AuthViewModel: ObservableObject {
             
         }
     }
-    
+
     func login(withEmail email: String, password: String, completion: @escaping(String) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
@@ -197,6 +229,10 @@ class AuthViewModel: ObservableObject {
         self.nfts = []
         self.owner = nil
         self.privateKey = nil
+        
+        if let uuid = UIDevice.current.identifierForVendor?.uuidString {
+            KeychainHelper.remove(key: uuid)
+        }
     }
 
     func fetchNFTs() {
@@ -216,12 +252,16 @@ query MyQuery {  mb_views_nft_tokens(\n where: {owner: {_eq: \"\(user)\"}}\n lim
 
             DispatchQueue.main.async {
                 Task {
+                    self.amount = try await self.fetchAccountBalance()
+
                     let data = try await RestHandler.asyncData(
                         with: url,
                         method: .post,
                         headers: ["mb-api-key": "anon"],
                         body: jsonData
                     )
+
+                    print(JSON(data))
 
                     for result in JSON(data)["data"]["mb_views_nft_tokens"].arrayValue {
                         let name: String? = result["title"].string

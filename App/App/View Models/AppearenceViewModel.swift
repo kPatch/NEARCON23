@@ -13,6 +13,6 @@ class AppearenceViewModel: ObservableObject {
     
     private init() {  }
     
-    @Published var gridMode: HomeGridViewMode = .playlist
+    @Published var gridMode: HomeGridViewMode = .collectorCluster
     @Published var isShowingActionMenu: Bool = false
 }

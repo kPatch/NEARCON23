@@ -80,9 +80,11 @@
 		7DB46A6C2AFC72E700822217 /* MultipeerNFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB46A6B2AFC72E700822217 /* MultipeerNFT.swift */; };
 		7DB46A6F2AFC76C800822217 /* NFTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB46A6E2AFC76C800822217 /* NFTType.swift */; };
 		7DB46A772AFC859D00822217 /* AnyCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 7DB46A762AFC859D00822217 /* AnyCodable */; };
+		7DBC2F2D2AFE33AF00367309 /* RPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBC2F2C2AFE33AF00367309 /* RPC.swift */; };
 		7DCA26892AFD62DD006DFAA6 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA26882AFD62DD006DFAA6 /* APIKey.swift */; };
 		7DCA268C2AFD634C006DFAA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DCA268B2AFD634C006DFAA6 /* Preview Assets.xcassets */; };
 		7DCA268E2AFD65DF006DFAA6 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA268D2AFD65DF006DFAA6 /* KeychainHelper.swift */; };
+		7DCA26902AFD819C006DFAA6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA268F2AFD819C006DFAA6 /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,9 +153,11 @@
 		7DB46A6B2AFC72E700822217 /* MultipeerNFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipeerNFT.swift; sourceTree = "<group>"; };
 		7DB46A6D2AFC731700822217 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7DB46A6E2AFC76C800822217 /* NFTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTType.swift; sourceTree = "<group>"; };
+		7DBC2F2C2AFE33AF00367309 /* RPC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPC.swift; sourceTree = "<group>"; };
 		7DCA26882AFD62DD006DFAA6 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		7DCA268B2AFD634C006DFAA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7DCA268D2AFD65DF006DFAA6 /* KeychainHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		7DCA268F2AFD819C006DFAA6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +279,7 @@
 				7D5FC8D42AC03FA800BB2F2D /* RestHandler.swift */,
 				7D5FC8DC2AC0807D00BB2F2D /* SVGWebView.swift */,
 				7DB46A5E2AFC711D00822217 /* MultipeerSession.swift */,
+				7DBC2F2C2AFE33AF00367309 /* RPC.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -296,6 +301,7 @@
 				7D8DED3B2ABF39D00094A71E /* Main Scroll Menu */,
 				7D8DED0F2ABEE0370094A71E /* HomeView.swift */,
 				7D01104D2AFD0FED0012357E /* MintView.swift */,
+				7DCA268F2AFD819C006DFAA6 /* ProfileView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -359,7 +365,6 @@
 		7D8DED3F2ABF3F890094A71E /* NFT Detail */ = {
 			isa = PBXGroup;
 			children = (
-				7D8DED492ABF5B0D0094A71E /* Properties */,
 				7D8DED402ABF3FA10094A71E /* NFTDetailView.swift */,
 				7D8DED472ABF5AF50094A71E /* NFTTopDetailView.swift */,
 			);
@@ -373,13 +378,6 @@
 				7D8DED452ABF4EAE0094A71E /* UIColor+extension.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		7D8DED492ABF5B0D0094A71E /* Properties */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Properties;
 			sourceTree = "<group>";
 		};
 		7D8DED4A2ABF5CF40094A71E /* Main */ = {
@@ -579,6 +577,7 @@
 				7DCA26892AFD62DD006DFAA6 /* APIKey.swift in Sources */,
 				7D64AA542ABE98DD00EBE52E /* FeatureItemCarouselView.swift in Sources */,
 				7D5FC8D52AC03FA800BB2F2D /* RestHandler.swift in Sources */,
+				7DBC2F2D2AFE33AF00367309 /* RPC.swift in Sources */,
 				7D8DED6E2ABF82F60094A71E /* ModelHelper.swift in Sources */,
 				7D8DED682ABF82B50094A71E /* FocusARView.swift in Sources */,
 				7D8DED232ABF386E0094A71E /* PlaylistCategoryHeaderView.swift in Sources */,
@@ -589,6 +588,7 @@
 				7D5FC8A92ABFC51600BB2F2D /* MainARViewModel.swift in Sources */,
 				7D8DED2D2ABF38F40094A71E /* CollectorClusterGridView.swift in Sources */,
 				7D0110722AFD3F430012357E /* PinataFormDataValue.swift in Sources */,
+				7DCA26902AFD819C006DFAA6 /* ProfileView.swift in Sources */,
 				7D64AA562ABEB0C300EBE52E /* FeatureItemView.swift in Sources */,
 				7D8DED632ABF82B50094A71E /* ArtPiecePickerView.swift in Sources */,
 				7D8DED392ABF39780094A71E /* NetworkView.swift in Sources */,
