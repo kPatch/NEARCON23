@@ -48,11 +48,14 @@ export async function POST(req: Request) {
     console.log(`DEBUG: NEXT ID - ${process.env.NEXT_PUBLIC_NETWORK_ID}`);
 
     const signerAccount = await connect(
-        accountId,
+        `${accountId}`,
         // "marcodotio.near",
         keyStore,
-        process.env.NEXT_PUBLIC_NETWORK_ID as string
+        `${process.env.NEXT_PUBLIC_NETWORK_ID}`
     );
+
+    console.log(`DEBUG: ACCOUNT ID - ${accountId}`);
+    console.log(`DEBUG: CONNECT RESULT - ${signerAccount}`);
 
     const gas = "300000000000000";
     const deposit = "10000000000000000000000";
@@ -79,7 +82,7 @@ export async function POST(req: Request) {
         url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
         headers: {
             "Content-Type": "application/json",
-            Authorization: process.env.JWT_PINATA_CLOUD
+            Authorization: `${process.env.JWT_PINATA_CLOUD}`
         },
         data: data
     };
@@ -88,8 +91,9 @@ export async function POST(req: Request) {
     console.log("IPF ===================================");
     console.log(`DEBUG: IPFSJSON - ${ipfsJson}`);
     console.log(ipfsJson.data);
+    // ${Date.now()}
     const args: object = {
-        token_id: `${Date.now()}`,
+        token_id: "HARDCODED VALUE",
         metadata: {
             title: `${title}`,
             description: `${description}`,
