@@ -44,6 +44,9 @@ export async function POST(req: Request) {
         keypair
     );
 
+    console.log(`DEBUG: KEYPAIR - ${keypair}`);
+    console.log(`DEBUG: NEXT ID - ${process.env.NEXT_PUBLIC_NETWORK_ID}`);
+
     const signerAccount = await connect(
         accountId,
         // "marcodotio.near",
@@ -70,7 +73,7 @@ export async function POST(req: Request) {
             }
         ]
     });
-
+    console.log(`DEBUG: JWT API - ${process.env.JWT_PINATA_CLOUD}`);
     const config = {
         method: 'post',
         url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
@@ -83,6 +86,7 @@ export async function POST(req: Request) {
 
     const ipfsJson: any = await axios(config);
     console.log("IPF ===================================");
+    console.log(`DEBUG: IPFSJSON - ${ipfsJson}`);
     console.log(ipfsJson.data);
     const args: object = {
         token_id: `${Date.now()}`,
