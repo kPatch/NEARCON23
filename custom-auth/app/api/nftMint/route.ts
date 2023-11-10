@@ -91,9 +91,8 @@ export async function POST(req: Request) {
     console.log("IPF ===================================");
     console.log(`DEBUG: IPFSJSON - ${ipfsJson}`);
     console.log(ipfsJson.data);
-    // ${Date.now()}
     const args: object = {
-        token_id: "HARDCODED VALUE",
+        token_id: `${Date.now()}`,
         metadata: {
             title: `${title}`,
             description: `${description}`,
@@ -114,11 +113,12 @@ export async function POST(req: Request) {
     );
 
     console.log("SIGNING DELEGATE ...");
+    console.log(`DEBUG: MINT ADDRESS - ${process.env.MINT_ADDRESS}`);
     const delegate = await signerAccount.signedDelegate({
         actions: [action],
         blockHeightTtl: 600,
         // receiverId: process.env.NEXT_PUBLIC_NETWORK_ID as string == "mainnet" ? process.env.GENADROP_MAINNET as string : process.env.GENADROP_TESTNET as string,
-        receiverId:  process.env.MINT_ADDRESS as string // contract address
+        receiverId: "marcodotio.near"
     });
 
     // return NextResponse.json(
