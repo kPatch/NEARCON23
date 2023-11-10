@@ -87,12 +87,12 @@ export async function POST(req: Request) {
     const args: object = {
         token_id: `${Date.now()}`,
         metadata: {
-            title: title,
-            description: description,
+            title: `${title}`,
+            description: `${description}`,
             media: `${image_uri}`,
             reference: `ipfs/${ipfsJson.data.IpfsHash}`,
         },
-        receiver_id: receiverNFT
+        receiver_id: `${receiverNFT}`
     }
     console.log("/IPF ===================================");
     
@@ -106,7 +106,6 @@ export async function POST(req: Request) {
     );
 
     console.log("SIGNING DELEGATE ...");
-    console.log(`DEBUG: ACTION - ${JSON.stringify(action, null, 2)}`);
     const delegate = await signerAccount.signedDelegate({
         actions: [action],
         blockHeightTtl: 600,
