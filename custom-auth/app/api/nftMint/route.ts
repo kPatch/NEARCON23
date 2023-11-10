@@ -118,7 +118,7 @@ export async function POST(req: Request) {
         actions: [action],
         blockHeightTtl: 600,
         // receiverId: process.env.NEXT_PUBLIC_NETWORK_ID as string == "mainnet" ? process.env.GENADROP_MAINNET as string : process.env.GENADROP_TESTNET as string,
-        receiverId: "marcodotio.near"
+        receiverId: "1fadd0ba5da91a03b71d2a00c528cec0508b6e2106aaa99b7c5fa8cab949092a"
     });
 
     // return NextResponse.json(
