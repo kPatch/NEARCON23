@@ -90,6 +90,7 @@ export async function POST(req: Request) {
     /////////////////////////////////////////////////////////////////
     // STEP X: Use relayer to create named account
     console.log("SIGNING DELEGATE ....");
+    console.log(`DEBUG: ACTION - ${JSON.stringify(action, null, 2)}`)
     const deserializeDelegate = await signerAccount.signedDelegate({
         actions: [action],
         blockHeightTtl: 600,
