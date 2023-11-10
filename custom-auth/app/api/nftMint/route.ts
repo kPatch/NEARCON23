@@ -89,7 +89,7 @@ export async function POST(req: Request) {
         metadata: {
             title: title,
             description: description,
-            media: `https://gateway.pinata.cloud/ipfs/${image_uri}`,
+            media: `${image_uri}`,
             reference: `ipfs/${ipfsJson.data.IpfsHash}`,
         },
         receiver_id: receiverNFT
@@ -106,6 +106,7 @@ export async function POST(req: Request) {
     );
 
     console.log("SIGNING DELEGATE ...");
+    console.log(`DEBUG: ACTION - ${JSON.stringify(action, null, 2)}`);
     const delegate = await signerAccount.signedDelegate({
         actions: [action],
         blockHeightTtl: 600,
